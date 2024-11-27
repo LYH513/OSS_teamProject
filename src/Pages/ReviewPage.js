@@ -24,5 +24,4 @@ const Div = styled.div`
 const ContentsDiv = styled.div`
   display: flex;
   flex-direction: column;
-  width: 80%;
 `
