@@ -33,6 +33,7 @@ function SearchPage() {
             </div>
           ))}
         </RowDiv>
+        
         <PaginationContainer>
           <nav aria-label="Page navigation example">
             <ul className="pagination justify-content-center">
@@ -134,7 +135,7 @@ const SubDiv = styled.div`
 const RowDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 50px 16px;
   /* justify-content: center; */
   margin-bottom: 32px;
   width: 100%;
