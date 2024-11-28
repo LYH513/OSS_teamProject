@@ -21,8 +21,8 @@ function SearchPage() {
   return (
     <Div>
       <ContentsDiv>
-        <TitleDiv>수상 경력에 빛나는 식사를 드셔 보세요</TitleDiv>
-        <SubDiv>2024 Traveller’s Choice 어워드 베스트 오브 베스트 음식점</SubDiv>
+        <TitleDiv>흑과 백, 대조의 미학</TitleDiv>
+        <SubDiv>2024년, 흑과 백의 세계에서 미식의 정점을 경험하세요.</SubDiv>
         <RowDiv>
           {currentData.map((item) => (
             <div key={item}>
@@ -182,12 +182,13 @@ const PaginationContainer = styled.div`
     pointer-events: none;
   }
   .page-item.active .page-link {
-    background-color: #007bff;
+    background-color: black;
     color: white;
     border-color: #007bff;
   }
   .page-link {
-    color: #007bff;
+    /* color: #007bff; */
+    color: #000;
     text-decoration: none;
     padding: 6px 12px;
     border: 1px solid #ddd;
