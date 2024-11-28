@@ -1,13 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import SearchResult from "../Components/Search_Components/SearchResult";
 
 function SearchPage(){
 
   return(
     <Div>
-      <ContentsDiv>
-        검색 페이지
-      </ContentsDiv>
+      <SearchResult/>
     </Div>
   )
 }
@@ -24,5 +23,4 @@ const Div = styled.div`
 const ContentsDiv = styled.div`
   display: flex;
   flex-direction: column;
-  width: 80%;
 `
