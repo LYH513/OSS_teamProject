@@ -1,34 +1,31 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { searchData, searchKeyword } from "../../Recoil/Atom";
 
-function KakaoSearch() {
-  const KAKAO_API_KEY = process.env.REACT_APP_KAKAOSEARCH_KEY; 
 
-  // placeSearch 함수
-  async function placeSearch() {
+export const KakaoSearch = async (keyword, currentPage) => {
+  // const url = `https://dapi.kakao.com/v2/local/search/keyword.json?query=${encodeURIComponent(keyword)}&category_group_code=FD6`;
 
-    // 음식점 x,y 위경도 기준으로부터 20000미터 반경의 결과 1페이지의 15개
-    const url =
-      "https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&x=127.106604&y=37.64116&radius=2000&page=1&size=15";
-    
-    try {
-      const response = await axios.get(url, {
-        headers: {
-          "Authorization": `KakaoAK ${KAKAO_API_KEY}`, // KakaoAK 뒤에 실제 API 키를 넣어야 합니다.
-        },
-      });
-  
-      console.log("카카오에서 받아온 데이터", response.data); // 검색된 데이터 콘솔 출력
-    } catch (error) {
-      console.error("에러 발생:", error);
-    }
+  const url = `https://dapi.kakao.com/v2/local/search/keyword.json?query=${encodeURIComponent(keyword)}&category_group_code=FD6&page=${currentPage}`;
+
+
+  console.log("페이지네이션", currentPage)
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        "Authorization": `KakaoAK ${process.env.REACT_APP_KAKAOSEARCH_KEY}`,
+      },
+    });
+
+    console.log("페이지 위치", currentPage);
+    console.log("카카오에서 받아온 데이터", response.data);
+    return response.data; // 결과 데이터 반환
+  } catch (error) {
+    console.error("에러 발생:", error);
+    throw error; // 에러를 호출한 곳에서 처리할 수 있도록 던짐
   }
-  
+};
 
-  // 페이지가 로드될 때 자동으로 검색
-  useEffect(() => {
-    placeSearch();
-  }, []);
-}
 
 export default KakaoSearch;

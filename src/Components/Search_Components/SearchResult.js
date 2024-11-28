@@ -1,22 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { searchData, searchKeyword } from "../../Recoil/Atom";
+import KakaoSearch from "./KakaoSearch";
 
 function SearchPage() {
-  const testimg =
-    "//t1.kakaocdn.net/thumb/T800x0.q50/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fplace%2F368D31A4F0094C43BDD961FD30762120";
-  const tmparr = Array.from({ length: 50 }, (_, index) => index + 1); // 총 50개 데이터 예시
-
+  const [keyword, setKeyword] = useRecoilState(searchKeyword);
+  const [kakoData, setKakaoData] = useRecoilState(searchData);
+  
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
-  const itemsPerPage = 16; // 한 페이지에 보여줄 아이템 개수
-  const totalPages = Math.ceil(tmparr.length / itemsPerPage); // 총 페이지 수
+  const itemsPerPage = 15; // 한 페이지에 보여줄 아이템 개수
+  const [totalPageCount, setTotalPageCount] = useState(1);
+  const totalPages = Math.min(Math.ceil(totalPageCount / itemsPerPage), 3) // 총 페이지 수
+
+  const testimg =
+  "//t1.kakaocdn.net/thumb/T800x0.q50/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fplace%2F368D31A4F0094C43BDD961FD30762120";
+
+  useEffect(()=>{
+    console.log("확인",keyword )
+    const fetchData = async () => {
+      if (keyword) { // keyword가 있을 경우에만 API 호출
+        try {
+          const data = await KakaoSearch(keyword, currentPage); 
+          console.log("데이터 오는지 확인", data.documents)
+          setKakaoData(data.documents); // 검색된 데이터를 Recoil 상태에 저장
+
+          setTotalPageCount( data.meta.total_count)
+        } catch (error) {
+          console.error("검색 에러:", error); // 에러 처리
+        }
+      }
+    };
+
+    fetchData();
+  },[keyword, currentPage])
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
-  // 현재 페이지에 해당하는 데이터 계산
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentData = tmparr.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <Div>
@@ -24,12 +45,13 @@ function SearchPage() {
         <TitleDiv>흑과 백, 대조의 미학</TitleDiv>
         <SubDiv>2024년, 흑과 백의 세계에서 미식의 정점을 경험하세요.</SubDiv>
         <RowDiv>
-          {currentData.map((item) => (
-            <div key={item}>
+          {kakoData && kakoData.map((item) => (
+            <div key={item.id}>
               <ImageContainer>
                 <StyledImage src={testimg} alt="이미지 설명" />
               </ImageContainer>
-              <ImageName>레스토랑 {item}</ImageName>
+              <ImageName>{item.place_name.length > 10 ? `${item.place_name.slice(0, 10)}...` : item.place_name}</ImageName>
+
             </div>
           ))}
         </RowDiv>
@@ -135,10 +157,11 @@ const SubDiv = styled.div`
 const RowDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 50px 16px;
+  gap: 50px 50px;
   /* justify-content: center; */
   margin-bottom: 32px;
   width: 100%;
+  justify-content: center;
 `;
 
 const ImageContainer = styled.div`
@@ -196,6 +219,6 @@ const PaginationContainer = styled.div`
     cursor: pointer;
   }
   .page-link:hover {
-    background-color: #e9ecef;
+    background-color: black;
   }
 `;

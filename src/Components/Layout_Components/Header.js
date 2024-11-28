@@ -3,8 +3,11 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../Assets/Img/logo.png"
 import icon from "../../Assets/Img/SVG.svg"
+import { useRecoilState } from "recoil";
+import { searchKeyword } from "../../Recoil/Atom";
 
 function Header(){
+  const [keyword, setKeyword] = useRecoilState(searchKeyword);
   const [searchValue, setSearchValue] = useState(""); // 검색 값 상태 추가
   const searchInputRef = useRef(null); 
   const navigate = useNavigate(); 
@@ -26,7 +29,8 @@ function Header(){
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      setSearchValue(searchInputRef.current.value); // 입력 값을 상태에 저장
+      setSearchValue(searchInputRef.current.value.trim()); // 입력 값을 상태에 저장
+      setKeyword(searchInputRef.current.value.trim());
       console.log("검색 값:", searchInputRef.current.value); // 디버그용
     }
   };
