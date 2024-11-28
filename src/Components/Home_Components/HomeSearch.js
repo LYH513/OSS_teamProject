@@ -17,12 +17,13 @@ function HomeSearch() {
           aria-selected="true"
           style={{
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: 'row', // 아이콘과 텍스트를 수평 정렬
             alignItems: 'center',
             textAlign: 'center',
             background: 'none',
             border: 'none',
             cursor: 'pointer',
+            gap: '8px', // 아이콘과 텍스트 간 간격
           }}
         >
           <svg
@@ -30,7 +31,6 @@ function HomeSearch() {
             width="24px"
             height="24px"
             className="d Vb egaXP UmNoP"
-            style={{ marginBottom: '5px' }}
           >
             <path
               fillRule="evenodd"
@@ -51,12 +51,13 @@ function HomeSearch() {
           tabIndex="-1"
           style={{
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: 'row', // 아이콘과 텍스트를 수평 정렬
             alignItems: 'center',
             textAlign: 'center',
             background: 'none',
             border: 'none',
             cursor: 'pointer',
+            gap: '8px', // 아이콘과 텍스트 간 간격
             color: 'gray',
           }}
         >
@@ -66,7 +67,6 @@ function HomeSearch() {
             height="24"
             viewBox="0 0 25 25"
             fill="none"
-            style={{ marginBottom: '5px' }}
           >
             <path
               fillRule="evenodd"
