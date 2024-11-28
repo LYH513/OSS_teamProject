@@ -337,12 +337,7 @@ const TitleName = styled.span`
   font-weight: 700;
   line-height: 65px; /* 120.37% */
   letter-spacing: 1.08px;
-<<<<<<< HEAD
 `;
-=======
-  cursor: pointer;
-`
->>>>>>> 05ebc8d (edit: zjtj tnwjd)
 
 const SearchDiv = styled.div`
   display: flex;
