@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { atom } from 'recoil';
 
 //recoil Atom 관리 파일
@@ -84,8 +83,3 @@ export const item = atom({
       }
   ]
 });
-=======
-import { atom } from "recoil";
-
-//recoil Atom 관리 파일
->>>>>>> 217525e (프로젝트 세팅)
