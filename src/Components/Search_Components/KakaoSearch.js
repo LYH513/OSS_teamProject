@@ -18,8 +18,6 @@ export const KakaoSearch = async (keyword, currentPage) => {
       },
     });
 
-    console.log("페이지 위치", currentPage);
-    console.log("카카오에서 받아온 데이터", response.data);
     return response.data; // 결과 데이터 반환
   } catch (error) {
     console.error("에러 발생:", error);

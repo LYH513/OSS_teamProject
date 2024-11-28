@@ -56,7 +56,8 @@ function SearchPage() {
           ))}
         </RowDiv>
         
-        <PaginationContainer>
+        {kakoData.length>0 &&
+          <PaginationContainer>
           <nav aria-label="Page navigation example">
             <ul className="pagination justify-content-center">
               {/* 이전 버튼 */}
@@ -113,7 +114,7 @@ function SearchPage() {
               </li>
             </ul>
           </nav>
-        </PaginationContainer>
+        </PaginationContainer>}
       </ContentsDiv>
     </Div>
   );
@@ -134,7 +135,7 @@ const ContentsDiv = styled.div`
   height: 100vh;
 `;
 
-const TitleDiv = styled.div`
+const TitleDiv = styled.span`
   color: #000;
   font-family: Arial;
   font-size: 24px;
@@ -142,9 +143,10 @@ const TitleDiv = styled.div`
   font-weight: 700;
   line-height: 29px;
   margin-bottom: 8px;
+  margin-left: 110px;
 `;
 
-const SubDiv = styled.div`
+const SubDiv = styled.span`
   color: #333;
   font-family: Arial;
   font-size: 16px;
@@ -152,6 +154,7 @@ const SubDiv = styled.div`
   font-weight: 400;
   line-height: 22px;
   margin-bottom: 16px;
+  margin-left: 110px;
 `;
 
 const RowDiv = styled.div`
