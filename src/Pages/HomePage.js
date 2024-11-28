@@ -1,19 +1,17 @@
-import React from "react";
-import styled from "styled-components";
-import Test from "../Components/Home_Components/Test";
+import React from 'react';
+import styled from 'styled-components';
+import HomeSearch from '../Components/Home_Components/HomeSearch';
+import SearchBar from '../Components/Home_Components/SearchBar';
+import TitleImage from '../Components/Home_Components/TItleImage';
 
 //Home_Components의 컴포넌트들을 여기 불러오면 됨. 화면에 띄울 페이지
-function HomePage(){
-
-  return(
+function HomePage() {
+  return (
     <Div>
-      <ContentsDiv>
-        홈 페이지
-        <Test/>
-        <Hi>
-          하이
-        </Hi>
-      </ContentsDiv>
+      <Title>나만의 흑백 요리사</Title>
+      <HomeSearch />
+      <SearchBar />
+      <TitleImage />
     </Div>
   );
 }
@@ -23,29 +21,23 @@ export default HomePage;
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+  align-content: center;
   align-items: center;
-`
+`;
 
-const ContentsDiv = styled.div`
+const Title = styled.div`
   display: flex;
+  width: 435.92px;
+  height: 65px;
   flex-direction: column;
-  width: 80%;
-`
-
-const Hi = styled.div`
-  display: flex;
-  width: 32.2px;
-  height: 17px;
-  flex-direction: column;
-  justify-content: center;
   flex-shrink: 0;
 
   color: #000;
   text-align: center;
   font-family: Arial;
-  font-size: 16px;
+  font-size: 54px;
   font-style: normal;
   font-weight: 700;
-  line-height: 20px; /* 125% */
-`
+  line-height: 65px; /* 120.37% */
+  letter-spacing: 1.08px;
+`;
