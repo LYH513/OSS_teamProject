@@ -15,8 +15,9 @@ function TitleImage() {
       <div
         style={{
           display: 'flex',
-          width: '80%',
-          maxWidth: '1200px',
+          width: '806px', // 가로 고정
+          height: '356px', // 세로 고정
+          maxWidth: '100%',
         }}
       >
         {/* 왼쪽 타이틀 박스 */}
@@ -45,6 +46,7 @@ function TitleImage() {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
+            backgroundColor: 'black', // 추가된 흑백 배경을 명확히 표현
           }}
         >
           <h1
