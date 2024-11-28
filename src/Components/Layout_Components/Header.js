@@ -1,11 +1,11 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../Assets/Img/logo.png"
 import icon from "../../Assets/Img/SVG.svg"
 
 function Header(){
-
+  const [searchValue, setSearchValue] = useState(""); // 검색 값 상태 추가
   const searchInputRef = useRef(null); 
   const navigate = useNavigate(); 
   const location = useLocation(); // 현재 경로 가져오기
@@ -24,6 +24,13 @@ function Header(){
     navigate("/mypage"); // /login으로 이동
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      setSearchValue(searchInputRef.current.value); // 입력 값을 상태에 저장
+      console.log("검색 값:", searchInputRef.current.value); // 디버그용
+    }
+  };
+
   const isHomePage = location.pathname === "/";
 
   return(
@@ -36,7 +43,11 @@ function Header(){
         {!isHomePage &&    
         <SearchDiv onClick={handleTitleClick}> 
             <img src={icon} alt="검색 아이콘"></img>
-            <SearchInput type="text" placeholder="검색" ref={searchInputRef}></SearchInput>
+            <SearchInput 
+              type="text" 
+              placeholder="검색" 
+              ref={searchInputRef}
+              onKeyDown ={handleKeyPress} ></SearchInput>
           </SearchDiv>}
         <BtnDiv>
           <MyBtn onClick={handleMyPageClick}>마이페이지</MyBtn>
@@ -73,6 +84,7 @@ const TitleDiv = styled.span`
   align-items: center;
   justify-content: center;
   gap: 5px;
+  cursor: pointer;
 `;
 
 const Logo = styled.img`
