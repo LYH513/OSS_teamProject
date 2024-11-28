@@ -90,6 +90,7 @@ const TitleName = styled.span`
   font-weight: 700;
   line-height: 65px; /* 120.37% */
   letter-spacing: 1.08px;
+  cursor: pointer;
 `
 
 const SearchDiv =styled.div`
