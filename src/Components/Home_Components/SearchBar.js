@@ -12,7 +12,7 @@ function SearchBar() {
     >
       <input
         type="text"
-        placeholder="레스토랑 이름"
+        placeholder="레스토랑 이름을 입력하세요"
         style={{
           width: '100%',
           height: '100%',
