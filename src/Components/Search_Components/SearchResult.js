@@ -6,7 +6,7 @@ import KakaoSearch from './KakaoSearch';
 import LinkPreview from './LinkPreview';
 import { useNavigate } from 'react-router-dom';
 
-function SearchPage() {
+function SearchResult() {
   const [keyword, setKeyword] = useRecoilState(searchKeyword);
   const [kakoData, setKakaoData] = useRecoilState(searchData);
   const [selectkakaoData, setSelectkakaoData] = useRecoilState(selectRestaurant);
@@ -161,7 +161,7 @@ function SearchPage() {
   );
 }
 
-export default SearchPage;
+export default SearchResult;
 
 const Div = styled.div`
   display: flex;

@@ -97,10 +97,18 @@ function Header() {
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       setKeyword(searchInputRef.current.value.trim());
+<<<<<<< HEAD
       console.log('검색 값:', searchInputRef.current.value); // 디버그용
       if (location.pathname !== '/search') {
         navigate('/search');
       }
+=======
+      console.log("검색 값:", searchInputRef.current.value); // 디버그용
+      if(location.pathname !== "/search"){
+        navigate('/search');
+      }
+
+>>>>>>> 5e64384 (add: 디테일, 리뷰 페이지 추가)
     }
   };
 

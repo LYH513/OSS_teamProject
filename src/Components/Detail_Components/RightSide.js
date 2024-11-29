@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -15,6 +16,17 @@ function RightSide({ selectkakaoData }) {
     else{
       alert("로그인을 진행해주세요!")
     }
+=======
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+function RightSide({ selectkakaoData }) {
+  const navigate = useNavigate();
+
+  const clickReviewWrite = () =>{
+    navigate('/review/create')
+>>>>>>> 5257c53 (add: 디테일, 리뷰 페이지 추가)
   }
 
   return (

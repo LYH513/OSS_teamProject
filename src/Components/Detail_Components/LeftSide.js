@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import KakaoMap from "./KakaMap";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
 import { selectReview } from "../../Recoil/Atom";
 import { useRecoilState } from "recoil";
@@ -26,6 +27,10 @@ function LeftSide({selectkakaoData, getFilterReview}){
     })
     navigate(`/review/${item.id}`)
   }
+=======
+
+function LeftSide({selectkakaoData}){
+>>>>>>> 5257c53 (add: 디테일, 리뷰 페이지 추가)
 
   return(
     <LeftSideDiv>
@@ -33,6 +38,7 @@ function LeftSide({selectkakaoData, getFilterReview}){
       <BorderDiv>
         <KakaoMap selectkakaoData={selectkakaoData}/>
       </BorderDiv>
+<<<<<<< HEAD
       <span style={{marginTop:"5px"}}>리뷰 : {getFilterReview.length}개</span>
       {
         getFilterReview.length > 0 && (
@@ -45,6 +51,8 @@ function LeftSide({selectkakaoData, getFilterReview}){
           })
         )
       }
+=======
+>>>>>>> 5257c53 (add: 디테일, 리뷰 페이지 추가)
     </LeftSideDiv>
 
   )
@@ -57,6 +65,10 @@ const LeftSideDiv =styled.div`
   width: 375px;
   flex-direction: column;
   align-items: flex-start;
+<<<<<<< HEAD
+=======
+  gap: 34px;
+>>>>>>> 5257c53 (add: 디테일, 리뷰 페이지 추가)
   flex-shrink: 0;
    margin-right: 69px;
 `;
@@ -74,7 +86,10 @@ const LeftTitle = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: 50px; /* 119.048% */
+<<<<<<< HEAD
   margin-bottom: 34px;
+=======
+>>>>>>> 5257c53 (add: 디테일, 리뷰 페이지 추가)
 `;
 
 const BorderDiv =styled.div`
@@ -82,6 +97,7 @@ const BorderDiv =styled.div`
   height: 375px;
   border-radius: 4px;
   border: 1px solid #E0E0E0;
+<<<<<<< HEAD
 `;
 
 const ReviewDiv = styled.div`
@@ -98,4 +114,6 @@ const ReviewDiv = styled.div`
   text-align: center;
   border-radius: 10px;
   cursor: pointer;
+=======
+>>>>>>> 5257c53 (add: 디테일, 리뷰 페이지 추가)
 `;
