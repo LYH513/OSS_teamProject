@@ -1,8 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function HomeSearch() {
+  const navigate = useNavigate(); // 네비게이션 훅 사용
+
+  const handleHomeClick = () => {
+    navigate('/'); // HomePage로 이동
+  };
+
   return (
-    <div>
+    <div
+      style={{
+        marginTop: '40px', // Title과의 간격 추가
+      }}
+    >
       <div
         className="eGVWv f M q"
         role="tablist"
@@ -15,6 +26,7 @@ function HomeSearch() {
           role="tab"
           type="button"
           aria-selected="true"
+          onClick={handleHomeClick} // 클릭 이벤트 추가
           style={{
             display: 'flex',
             flexDirection: 'row', // 아이콘과 텍스트를 수평 정렬
