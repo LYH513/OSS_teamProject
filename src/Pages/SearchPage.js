@@ -18,9 +18,5 @@ const Div = styled.div`
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
-`
-
-const ContentsDiv = styled.div`
-  display: flex;
-  flex-direction: column;
+  margin-top: 48px;
 `

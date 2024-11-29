@@ -31,8 +31,14 @@ function Header() {
   const closeModal = () => {
     setIsModalOpen(false); // 모달 닫기
   };
-
-  const isHomePage = location.pathname === '/';
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      setSearchValue(searchInputRef.current.value.trim()); // 입력 값을 상태에 저장
+      setKeyword(searchInputRef.current.value.trim());
+      console.log("검색 값:", searchInputRef.current.value); // 디버그용
+    }
+  };
+  const isHomePage = location.pathname === "/";
 
   return (
     <Div>
@@ -48,6 +54,7 @@ function Header() {
               type="text"
               placeholder="검색"
               ref={searchInputRef}
+              onKeyDown ={handleKeyPress} ></SearchInput>
             ></SearchInput>
           </SearchDiv>
         )}
@@ -171,6 +178,7 @@ const TitleDiv = styled.span`
   align-items: center;
   justify-content: center;
   gap: 5px;
+  cursor: pointer;
 `;
 
 const Logo = styled.img`
