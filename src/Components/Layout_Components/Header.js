@@ -112,7 +112,9 @@ const CloseButton = styled.button`
 `;
 
 const ModalLogo = styled.img`
-  width: 60px;
+  width: 60px; /* 기존 크기 유지 */
+  height: 60px; /* 높이 추가해서 정사각형 유지 */
+  border-radius: 50%; /* 둥글게 만들기 */
   margin-bottom: 20px;
 `;
 
@@ -174,8 +176,9 @@ const TitleDiv = styled.span`
 `;
 
 const Logo = styled.img`
-  width: 40px;
-  border-radius: 10px;
+  width: 40px; /* 기존 크기 유지 */
+  height: 40px; /* 높이 추가해서 정사각형 유지 */
+  border-radius: 50%; /* 둥글게 만들기 */
   cursor: pointer;
 `;
 
