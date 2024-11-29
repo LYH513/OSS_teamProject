@@ -18,7 +18,7 @@ function App() {
         <Route path='/detail/:postId' element={<DetailPage/>}/>
         <Route path='/review/create' element={<ReviewPage/>}/>
         <Route path='/review/:reviewId' element={<ReviewPage/>}/>
-        <Route path='/my' element={<Mypage/>}/>
+        <Route path='/mypage' element={<Mypage/>}/>
         <Route path='/review/:reviewId/edit' element={<ReviewPage/>}/>
       </Route>
     </Routes>

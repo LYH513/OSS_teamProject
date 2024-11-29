@@ -57,7 +57,8 @@ function TitleImage({ src }) {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            backgroundColor: 'black',
+            backgroundColor: 'black', // 추가된 흑백 배경을 명확히 표현
+
           }}
         >
           <h1

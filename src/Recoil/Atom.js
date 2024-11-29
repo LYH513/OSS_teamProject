@@ -2,8 +2,12 @@ import { atom } from "recoil";
 
 //recoil Atom 관리 파일
 
-//사용예시
-export const selectedStudentState = atom({
-  key: "selectedStudentState",
+export const searchKeyword = atom({
+  key: "searchKeyword",
+  default: "",
+});
+
+export const searchData = atom({
+  key: "searchData",
   default: [],
 });
