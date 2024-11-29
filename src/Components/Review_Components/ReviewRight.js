@@ -170,7 +170,8 @@ const Button = styled.button`
   padding: 10px 15px;
   border: 1px solid #ccc;
   border-radius: 20px;
-  background: ${(props) => (props.selected ? "#ddd" : "#fff")};
+  background: ${(props) => (props.selected ? "black" : "#fff")};
+  color: ${(props) => (props.selected ? "white" : "black")};
   cursor: pointer;
 
   &:hover {
