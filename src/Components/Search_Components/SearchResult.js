@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { searchData, searchKeyword } from "../../Recoil/Atom";
 import KakaoSearch from "./KakaoSearch";
+import LinkPreview from "./LinkPreview";
 
 function SearchPage() {
   const [keyword, setKeyword] = useRecoilState(searchKeyword);
@@ -12,6 +13,8 @@ function SearchPage() {
   const itemsPerPage = 15; // 한 페이지에 보여줄 아이템 개수
   const [totalPageCount, setTotalPageCount] = useState(1);
   const totalPages = Math.min(Math.ceil(totalPageCount / itemsPerPage), 3) // 총 페이지 수
+
+  // const [placeUrls, setPlaceUrls] = useState([]); // place_url 배열 저장
 
   const testimg =
   "//t1.kakaocdn.net/thumb/T800x0.q50/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fplace%2F368D31A4F0094C43BDD961FD30762120";
@@ -24,8 +27,8 @@ function SearchPage() {
           const data = await KakaoSearch(keyword, currentPage); 
           console.log("데이터 오는지 확인", data.documents)
           setKakaoData(data.documents); // 검색된 데이터를 Recoil 상태에 저장
-
           setTotalPageCount( data.meta.total_count)
+
         } catch (error) {
           console.error("검색 에러:", error); // 에러 처리
         }
@@ -45,10 +48,16 @@ function SearchPage() {
         <TitleDiv>흑과 백, 대조의 미학</TitleDiv>
         <SubDiv>2024년, 흑과 백의 세계에서 미식의 정점을 경험하세요.</SubDiv>
         <RowDiv>
-          {kakoData && kakoData.map((item) => (
+          {kakoData && kakoData.map((item, index) => (
             <div key={item.id}>
               <ImageContainer>
-                <StyledImage src={testimg} alt="이미지 설명" />
+              {item ? (
+                    <LinkPreview
+                      url={item.place_url}
+                    />
+                  ) : (
+                    <StyledImage src={testimg} alt="이미지 설명" />
+                  )}
               </ImageContainer>
               <ImageName>{item.place_name.length > 10 ? `${item.place_name.slice(0, 10)}...` : item.place_name}</ImageName>
 
@@ -169,11 +178,12 @@ const RowDiv = styled.div`
 
 const ImageContainer = styled.div`
   width: 272px;
-  height: 272px;
+  /* height: 272px; */
   flex-shrink: 0;
   border-radius: 5px;
   overflow: hidden;
   margin-bottom: 5px;
+  cursor: pointer;
 `;
 
 const StyledImage = styled.img`
