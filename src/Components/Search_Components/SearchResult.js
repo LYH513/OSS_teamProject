@@ -46,7 +46,7 @@ function SearchPage() {
         <SubDiv>2024년, 흑과 백의 세계에서 미식의 정점을 경험하세요.</SubDiv>
         <RowDiv>
           {kakoData && kakoData.map((item) => (
-            <div key={item.id}>
+            <div key={item.id} style={{cursor:"pointer"}}>
               <ImageContainer>
                 <StyledImage src={testimg} alt="이미지 설명" />
               </ImageContainer>
