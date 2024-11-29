@@ -117,7 +117,7 @@ function TitleImage({ src }) {
                   fontSize: '1rem',
                 }}
               >
-                흑: 본인 기준 별로였던 곳
+                흑: 나만 알고싶은 곳
               </div>
               <div
                 style={{
@@ -129,7 +129,7 @@ function TitleImage({ src }) {
                   fontSize: '1rem',
                 }}
               >
-                백: 본인 기준 좋았던 곳
+                백: 모두가 알면하는 곳
               </div>
             </div>
           </div>
@@ -145,7 +145,7 @@ function TitleImage2({ src }) {
       style={{
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'end',
         height: '400px',
         backgroundColor: 'black',
         color: 'white',
