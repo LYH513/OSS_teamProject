@@ -7,8 +7,7 @@ function ReviewLeftSide({selectkakaoData}){
   return(
     <LeftSideDiv>
       <LeftTitle>방문하신 시설은
-      만족스러우셨나
-      요?</LeftTitle>
+      만족스러우셨나요?</LeftTitle>
       <BorderDiv>
         <KakaoMap selectkakaoData={selectkakaoData}/>
       </BorderDiv>
@@ -26,15 +25,15 @@ const LeftSideDiv =styled.div`
   align-items: flex-start;
   gap: 34px;
   flex-shrink: 0;
-   margin-right: 69px;
+  margin-right: 69px;
 `;
 
 const LeftTitle = styled.div`
   display: flex;
-  width: 305.87px;
+  /* width: 305.87px; */
   height: 147px;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
 
   color: #000;
   font-family: Arial;
