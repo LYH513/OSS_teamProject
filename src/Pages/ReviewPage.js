@@ -1,14 +1,22 @@
 import React from "react";
 import styled from "styled-components";
+import ReviewRight from "../Components/Review_Components/ReviewRight";
+import ReviewLeftSide from "../Components/Review_Components/ReviewLeftSide";
+import { useRecoilState } from "recoil";
+import { selectRestaurant } from "../Recoil/Atom";
 
 function ReviewPage(){
+  const [selectkakaoData, setSelectkakaoData] = useRecoilState(selectRestaurant);
 
   return(
+    <div>
     <Div>
       <ContentsDiv>
-        리뷰 페이지
+        <ReviewLeftSide selectkakaoData={selectkakaoData}/>
+        <ReviewRight />
       </ContentsDiv>
     </Div>
+    </div>
   )
 }
 
@@ -16,6 +24,7 @@ export default ReviewPage;
 
 const Div = styled.div`
   display: flex;
+  margin-top: 48px;
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
@@ -23,5 +32,6 @@ const Div = styled.div`
 
 const ContentsDiv = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 48px;
 `

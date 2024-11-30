@@ -44,7 +44,7 @@ const LinkPreview = ({ url }) => {
           src={fallbackImage}
           alt="Background Preview"
           style={{ width: "100%",
-            height: "100%",
+            height: "136px",
             objectFit: "cover",
             borderRadius: "5px" }}
         />)}

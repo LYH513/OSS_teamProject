@@ -42,6 +42,10 @@ function Header() {
       // setSearchValue(searchInputRef.current.value.trim()); // 입력 값을 상태에 저장
       setKeyword(searchInputRef.current.value.trim());
       console.log("검색 값:", searchInputRef.current.value); // 디버그용
+      if(location.pathname !== "/search"){
+        navigate('/search');
+      }
+
     }
   };
   const isHomePage = location.pathname === "/";

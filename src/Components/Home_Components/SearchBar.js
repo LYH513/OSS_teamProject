@@ -1,6 +1,30 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
+import { searchKeyword } from '../../Recoil/Atom';
+import { useNavigate } from 'react-router-dom';
 
 function SearchBar() {
+  const [keyword, setKeyword] = useRecoilState(searchKeyword);
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (keyword.trim() !== "") {
+      // 키워드가 비어있지 않으면, Recoil 상태에 저장 후 검색 페이지로 이동
+      setKeyword(keyword);
+      navigate(`/search`);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && keyword.trim() !== "") {
+      handleSearch();
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setKeyword(e.target.value); // 입력 필드 변경 시 상태 업데이트
+  };
+
   return (
     <div
       style={{
@@ -13,6 +37,8 @@ function SearchBar() {
       <input
         type="text"
         placeholder="레스토랑 이름을 입력하세요"
+        onChange={handleInputChange}
+        onKeyPress={handleKeyPress} 
         style={{
           width: '100%',
           height: '100%',
@@ -24,6 +50,7 @@ function SearchBar() {
         }}
       />
       <button
+        onClick={handleSearch}
         style={{
           position: 'absolute',
           top: '50%',

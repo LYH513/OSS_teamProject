@@ -1,11 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { searchKeyword } from '../../Recoil/Atom';
+import { useRecoilState } from 'recoil';
 
 function HomeSearch() {
   const navigate = useNavigate(); // 네비게이션 훅 사용
+  const [keyword, setKeyword] = useRecoilState(searchKeyword);
 
-  const handleHomeClick = () => {
-    navigate('/'); // HomePage로 이동
+  const handleSearchClick = () => {
+    setKeyword(" ");
+    navigate('/search'); // HomePage로 이동
   };
 
   return (
@@ -26,7 +30,6 @@ function HomeSearch() {
           role="tab"
           type="button"
           aria-selected="true"
-          onClick={handleHomeClick} // 클릭 이벤트 추가
           style={{
             display: 'flex',
             flexDirection: 'row', // 아이콘과 텍스트를 수평 정렬
@@ -61,6 +64,7 @@ function HomeSearch() {
           type="button"
           aria-selected="false"
           tabIndex="-1"
+          onClick={handleSearchClick} // 클릭 이벤트 추가
           style={{
             display: 'flex',
             flexDirection: 'row', // 아이콘과 텍스트를 수평 정렬

@@ -1,23 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { searchData, searchKeyword } from '../../Recoil/Atom';
+import { searchData, searchKeyword, selectRestaurant } from '../../Recoil/Atom';
 import KakaoSearch from './KakaoSearch';
 import LinkPreview from './LinkPreview';
+import { useNavigate } from 'react-router-dom';
 
 function SearchPage() {
   const [keyword, setKeyword] = useRecoilState(searchKeyword);
   const [kakoData, setKakaoData] = useRecoilState(searchData);
+  const [selectkakaoData, setSelectkakaoData] = useRecoilState(selectRestaurant);
+  const navigate = useNavigate();
+
 
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
   const itemsPerPage = 15; // 한 페이지에 보여줄 아이템 개수
   const [totalPageCount, setTotalPageCount] = useState(1);
   const totalPages = Math.min(Math.ceil(totalPageCount / itemsPerPage), 3); // 총 페이지 수
 
-  // const [placeUrls, setPlaceUrls] = useState([]); // place_url 배열 저장
-
   const testimg =
     '//t1.kakaocdn.net/thumb/T800x0.q50/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fplace%2F368D31A4F0094C43BDD961FD30762120';
+
+  const clickPost = (item) => {
+    setSelectkakaoData({
+      address_name: item.address_name,
+      category_group_code: item.category_group_code,
+      category_group_name: item.category_group_name,
+      category_name: item.category_name,
+      distance: item.distance,
+      id: item.id,
+      phone: item.phone,
+      place_name: item.place_name,
+      place_url: item.place_url,
+      road_address_name: item.road_address_name,
+      x: item.x,
+      y: item.y
+    });
+  
+    navigate(`/detail/${item.id}`);
+  };
+    
 
   useEffect(() => {
     console.log('확인', keyword);
@@ -50,7 +72,7 @@ function SearchPage() {
         <RowDiv>
           {kakoData &&
             kakoData.map((item, index) => (
-              <div key={item.id}>
+              <div key={item.id} onClick={()=>clickPost(item)}>
                 <ImageContainer>
                   {item ? (
                     <LinkPreview url={item.place_url} />
