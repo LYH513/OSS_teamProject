@@ -1,15 +1,27 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../Assets/Img/logo.png';
 import icon from '../../Assets/Img/SVG.svg';
 import { useRecoilState } from 'recoil';
 import { searchData, searchKeyword } from '../../Recoil/Atom';
-import { getUsersAPI } from '../../API/AxiosAPI';
+import { getUsersAPI, postLoginAPI } from '../../API/AxiosAPI';
+import { myInfo } from '../../Recoil/UserInfo';
 
 function Header() {
   const [keyword, setKeyword] = useRecoilState(searchKeyword);
   const [kakoData, setKakaoData] = useRecoilState(searchData);
+  //사용자가 입력한 로그인 데이터
+  const [loginData, setLoginData] = useState({
+    name: "",
+    password: ""
+  })
+  //로그인 됐을 때 id 저장
+  const [info, setInfo] = useRecoilState(myInfo);
+  const [isSignUp, setIsSignUp] = useState(false);
+
+  //서버에 있는 로그인 데이터
+  const [loginAll, setLoginAll] = useState([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const searchInputRef = useRef(null);
@@ -22,6 +34,22 @@ function Header() {
     }
   };
 
+  //모달이 열렸을 때 스크롤 상태 설정
+  useEffect(() => {
+    if (isModalOpen) {
+      // 스크롤 금지
+      document.body.style.overflow = 'hidden';
+    } else {
+      // 스크롤 허용
+      document.body.style.overflow = '';
+    }
+
+    // cleanup 함수로 스타일 원복
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isModalOpen]);
+
   const handleLogoClick = () => {
     navigate('/'); // /로 이동
   };
@@ -32,18 +60,28 @@ function Header() {
 
   const getUsersData = async() =>{
     const response = await getUsersAPI();
+    setLoginAll(response);
     console.log("유저 데이터 가져옴",response);
   };
 
   const handleLoginClick = () => {
-    setIsModalOpen(true); // 모달 열기
-    getUsersData();
+    if(!info){
+      setIsModalOpen(true); // 모달 열기
+      getUsersData();
+    }
+    else{
+      sessionStorage.removeItem('sessionData');
+      setInfo("");
+    }
+
   };
 
   const closeModal = () => {
     setIsModalOpen(false); // 모달 닫기
+    // console.log("아이디 있음?" , info)
   };
 
+  //헤더 검색
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       setKeyword(searchInputRef.current.value.trim());
@@ -60,6 +98,50 @@ function Header() {
       closeModal();
     }
   };
+
+  const handleLoignInput = (e) => {
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value
+    });
+  }
+
+  //로그인이 일치하는지 확인
+  const clickLoginButton = () => {
+    console.log("입력된 값 확인", loginData);
+    const matchedUser = loginAll.find(
+      (item) => item.name === loginData.name && item.password === loginData.password
+    );
+  
+    if (matchedUser) {
+      console.log("로그인 성공", matchedUser.id);
+      setInfo(matchedUser.id); // 로그인 성공 시 사용자 정보 저장
+      closeModal();
+    } else if (loginData.name.trim() && loginData.password.trim()) {
+      console.log("로그인 실패, 회원가입 진행");
+      setIsSignUp(true); // 회원가입 모드로 전환
+    }
+  };
+
+  //회원가입 진행
+  const handleSignUp = async () => {
+    if (loginData.name.trim() && loginData.password.trim()) {
+      console.log("회원가입 진행 중", loginData);
+  
+      // 서버에 회원가입 데이터 전송 (API 호출 필요)
+      try {
+        const response = await postLoginAPI(loginData); // `addUserAPI`는 서버와 통신하는 함수
+        console.log("회원가입 완료", response);
+        setLoginAll([...loginAll, response]); // 새로운 사용자 추가
+        setIsSignUp(false); // 다시 로그인 모드로 전환
+        closeModal();
+      } catch (error) {
+        console.error("회원가입 실패", error);
+      }
+    }
+  };
+  
+  
 
   const isHomePage = location.pathname === '/';
 
@@ -82,8 +164,12 @@ function Header() {
           </SearchDiv>
         )}
         <BtnDiv>
-          <MyBtn onClick={handleMyPageClick}>마이페이지</MyBtn>
-          <LoginBtn onClick={handleLoginClick}>로그인</LoginBtn>
+          {info &&
+          <MyBtn onClick={handleMyPageClick}>마이페이지</MyBtn>}
+        {
+        !info?   
+        (<LoginBtn onClick={handleLoginClick}>로그인</LoginBtn>):
+        (<LoginBtn onClick={handleLoginClick}>로그아웃</LoginBtn>)}
         </BtnDiv>
       </HeaderDiv>
       {isModalOpen && (
@@ -91,10 +177,26 @@ function Header() {
           <ModalContent>
             <CloseButton onClick={closeModal}>×</CloseButton>
             <ModalLogo src={logo} alt="로고 이미지" />
-            <ModalTitle>Sign in to unlock the best of BWRestaurant</ModalTitle>
-            <InputField type="text" placeholder="닉네임" />
-            <InputField type="password" placeholder="비밀번호" />
-            <LoginButton>로그인</LoginButton>
+            <ModalTitle>
+              {isSignUp ? "Join BWRestaurant and start your journey!" : "Sign in to unlock the best of BWRestaurant"}
+            </ModalTitle>
+
+            <InputField 
+              type="text" 
+              placeholder="닉네임" 
+              name='name' 
+              onChange={handleLoignInput} 
+              value={loginData.name}/>
+            <InputField 
+              type="password" 
+              placeholder="비밀번호" 
+              name='password' 
+              onChange={handleLoignInput} 
+              value={loginData.password}/>
+            <LoginButton onClick={isSignUp ? handleSignUp : clickLoginButton}>
+              {isSignUp ? "회원가입" : "로그인"}
+            </LoginButton>
+
           </ModalContent>
         </ModalOverlay>
       )}

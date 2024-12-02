@@ -24,3 +24,14 @@ export const postReviewAPI = async(id,data) =>{
     console.error(error);
   }
 }
+
+
+export const postLoginAPI = async(data) =>{
+  try{
+    const response = await axios.post(`${server}`, data);
+    return response.data;
+  }
+  catch(error){
+    console.error(error);
+  }
+}
