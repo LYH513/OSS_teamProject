@@ -31,7 +31,7 @@ const Div = styled.div`
   align-items: center;
 `;
 
-const PageContainer = styled.div`
+const ContentsDiv = styled.div`
   display: flex;
   flex-direction: row;
   gap: 48px;
