@@ -127,7 +127,7 @@ function ReviewRight({selectkakaoData}) {
         <ReviewBox>
           <Question>리뷰 쓰기</Question>
           <TextArea
-            placeholder="이곳은 밤에 가볍게 외출하기에 좋아요..."
+            placeholder="크림파스타가 진짜 맛있어요..."
             value={review}
             onChange={(e) => setReview(e.target.value)}
           ></TextArea>
