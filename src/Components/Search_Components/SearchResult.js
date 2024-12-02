@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { searchData, searchKeyword, selectRestaurant } from '../../Recoil/Atom';
+import { item, searchData, searchKeyword, selectRestaurant } from '../../Recoil/Atom';
 import KakaoSearch from './KakaoSearch';
 import LinkPreview from './LinkPreview';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ function SearchPage() {
   const [keyword, setKeyword] = useRecoilState(searchKeyword);
   const [kakoData, setKakaoData] = useRecoilState(searchData);
   const [selectkakaoData, setSelectkakaoData] = useRecoilState(selectRestaurant);
+  const [oneItem, setOneItem] = useRecoilState(item);
   const navigate = useNavigate();
 
 
@@ -22,6 +23,8 @@ function SearchPage() {
     '//t1.kakaocdn.net/thumb/T800x0.q50/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fplace%2F368D31A4F0094C43BDD961FD30762120';
 
   const clickPost = (item) => {
+    setOneItem(item);
+    
     setSelectkakaoData({
       address_name: item.address_name,
       category_group_code: item.category_group_code,

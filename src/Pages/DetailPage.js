@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import LeftSide from "../Components/Detail_Components/LeftSide";
 import RightSide from "../Components/Detail_Components/RightSide";
-import { selectRestaurant } from "../Recoil/Atom";
+import { item, selectRestaurant } from "../Recoil/Atom";
 import { useRecoilState } from "recoil";
 import { useParams } from "react-router-dom";
 import { getAllReviewDataAPI, getUsersAPI } from "../API/AxiosAPI";
@@ -11,6 +11,7 @@ function DetailPage(){
   const [selectkakaoData, setSelectkakaoData] = useRecoilState(selectRestaurant);
   const { postId } = useParams();
   const [getFilterReview, setGetFilterReview] = useState([]);
+  const [oneItem, setOneItem] = useRecoilState(item);
 
   // 유저 데이터 가져오기
   const getUsersData = async () => {
@@ -38,25 +39,33 @@ function DetailPage(){
       // // userIds 배열을 순회하며 해당 id로 리뷰 데이터 가져오기
       const allReviews = [];
 
-      // // 상태 업데이트 후 ids 배열이 변경될 때마다 다시 호출되지 않도록 방지
-      for (let userId of users) {
-      //   // 실제 API에 맞게 수정해야 합니다
-        const response = await getAllReviewDataAPI(userId); 
-        allReviews.push(...response); // 모든 리뷰 데이터를 합침
-      // }
+        for (let userId of users) {
+        //   // 실제 API에 맞게 수정해야 합니다
+          const response = await getAllReviewDataAPI(userId); 
 
-      console.log("데이터", allReviews)
+          if(response ){
+            allReviews.push(...response); 
+          }
 
-      const filteredReviews = allReviews.filter((review) => review.postId === postId);
-      setGetFilterReview(filteredReviews);
+        const filteredReviews = allReviews.filter((review) => review.postId === postId);
+        setGetFilterReview(filteredReviews);
       
     }} catch (error) {
       console.error("리뷰 데이터를 가져오는 중 에러 발생:", error);
     }
   };
 
+  // 비어 있는 값 확인 함수
+  const checkAndSetData = () => {
+    const isEmpty = Object.values(selectkakaoData).every((value) => value === "");
+    if (isEmpty) {
+      setSelectkakaoData(oneItem);
+    }
+  };
+
   useEffect(() => {
       getAllReviewData(); 
+      checkAndSetData();
   }, [postId]);
 
   return (

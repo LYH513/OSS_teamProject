@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 function ReviewDetailRight({ getReview }) {
+  // 객체 분해할당 시 초기값 설정
   const {
-    rating,
-    group,
-    visitDate,
-    menu,
-    review,
-    title,
-    companion,
+    rating = 0,
+    group = '',
+    visitDate = '',
+    menu = '',
+    review = '',
+    title = '',
+    companion = '',
   } = getReview;
 
   return (
@@ -42,7 +43,7 @@ function ReviewDetailRight({ getReview }) {
         </ButtonGroup>
         <Question>언제 다녀오셨나요?</Question>
         <DropdownWrapper>
-          <Dropdown value={visitDate} disabled>
+          <Dropdown value={visitDate || ''} disabled>
             <option value="">선택</option>
             <option value="1주">최근 1주</option>
             <option value="1달">최근 1달</option>
@@ -65,7 +66,7 @@ function ReviewDetailRight({ getReview }) {
         <ReviewBox>
           <Input
             placeholder="크림 파스타.."
-            value={menu}
+            value={menu || ''}
             disabled
           />
         </ReviewBox>
@@ -73,7 +74,7 @@ function ReviewDetailRight({ getReview }) {
           <Question>리뷰 쓰기</Question>
           <TextArea
             placeholder="이곳은 밤에 가볍게 외출하기에 좋아요..."
-            value={review}
+            value={review || ''}
             disabled
           />
         </ReviewBox>
@@ -81,7 +82,7 @@ function ReviewDetailRight({ getReview }) {
         <TitleBox>
           <Input
             placeholder="경험했던 것 중 가장 중요한 정보를 알려주세요"
-            value={title}
+            value={title || ''}
             disabled
           />
         </TitleBox>
@@ -89,6 +90,7 @@ function ReviewDetailRight({ getReview }) {
     </RightSideDiv>
   );
 }
+
 
 export default ReviewDetailRight;
 

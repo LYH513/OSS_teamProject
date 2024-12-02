@@ -45,5 +45,40 @@ export const selectReview = atom({
     y: "",
     id: "",
     userId: ""
-  }
+  },
+
+  effects: [
+    ({setSelf, onSet}) => {
+        const saveSessionData =sessionStorage.getItem("selectReviewSession");
+        if(saveSessionData){
+            setSelf(JSON.parse(saveSessionData));
+        }
+
+        onSet((newValue, _, isReset) =>{
+            isReset
+            ? sessionStorage.removeItem("selectReviewSession")
+            : sessionStorage.setItem("selectReviewSession", JSON.stringify(newValue));
+        })
+    }
+]
+});
+
+export const item = atom({
+  key : 'item',
+  default: "",
+  
+  effects: [
+      ({setSelf, onSet}) => {
+          const saveSessionData =sessionStorage.getItem("selectPostSession");
+          if(saveSessionData){
+              setSelf(JSON.parse(saveSessionData));
+          }
+
+          onSet((newValue, _, isReset) =>{
+              isReset
+              ? sessionStorage.removeItem("selectPostSession")
+              : sessionStorage.setItem("selectPostSession", JSON.stringify(newValue));
+          })
+      }
+  ]
 });
