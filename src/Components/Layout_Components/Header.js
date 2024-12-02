@@ -41,6 +41,9 @@ function Header() {
     if (event.key === 'Enter') {
       setKeyword(searchInputRef.current.value.trim());
       console.log('검색 값:', searchInputRef.current.value); // 디버그용
+      if (location.pathname !== '/search') {
+        navigate('/search');
+      }
     }
   };
 
