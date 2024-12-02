@@ -1,25 +1,59 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { selectRestaurant } from "../../Recoil/Atom";
-import { useRecoilState } from "recoil";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { selectRestaurant } from '../../Recoil/Atom';
+import { postReviewAPI } from '../../API/AxiosAPI'; // API 함수 경로에 맞게 수정
 
 function ReviewRight() {
-  const id = 1; //임시 아이디
-
+  const id = 1; // 임시 아이디
   const [selectRes, setSelectRes] = useRecoilState(selectRestaurant);
-  console.log("선택한 레스토랑", selectRes.id)
+  console.log('선택한 레스토랑', selectRes.id);
 
   const [rating, setRating] = useState(0); // 별점 상태
-  const [group, setGroup] = useState(""); // 흑백 상태
-  const [visitDate, setVisitDate] = useState(""); // 방문 날짜 상태
-  const [menu, setMenu] = useState(""); // 메뉴 상태
-  const [review, setReview] = useState(""); // 리뷰 상태
-  const [title, setTitle] = useState(""); // 제목 상태
-  const [companion, setCompanion] = useState(""); // 동행자 상태
+  console.log('평가', rating);
+
+  const [group, setGroup] = useState(''); // 흑백 상태
+  console.log('상태', group);
+
+  const [visitDate, setVisitDate] = useState(''); // 방문 날짜 상태
+  const [menu, setMenu] = useState(''); // 메뉴 상태
+  const [review, setReview] = useState(''); // 리뷰 상태
+  const [title, setTitle] = useState(''); // 제목 상태
+  const [companion, setCompanion] = useState(''); // 동행자 상태
 
   const handleRating = (idx) => setRating(idx + 1); // 별점 클릭 핸들러
   const handleGroupSelect = (selectedGroup) => setGroup(selectedGroup); // 흑백 선택
-  const handleCompanionSelect = (selectedCompanion) => setCompanion(selectedCompanion); // 동행자 선택
+  const handleCompanionSelect = (selectedCompanion) =>
+    setCompanion(selectedCompanion); // 동행자 선택
+
+  const handleSubmit = async () => {
+    // 유효성 검사
+    if (!rating || !menu || !review || !title) {
+      alert('모든 필드를 입력해주세요!');
+      return; // 유효성 검사를 통과하지 못하면 요청을 중단합니다.
+    }
+
+    const reviewData = {
+      postId: selectRes.id,
+      rating: rating,
+      group: group,
+      visitDate: visitDate,
+      menu: menu,
+      review: review,
+      title: title,
+      companion: companion,
+      userId: id,
+    };
+
+    try {
+      const response = await postReviewAPI(id, reviewData);
+      console.log('리뷰 등록 성공:', response);
+      alert('리뷰가 성공적으로 등록되었습니다!');
+    } catch (error) {
+      console.error('리뷰 등록 실패:', error);
+      alert('리뷰 등록 중 오류가 발생했습니다.');
+    }
+  };
 
   return (
     <RightSideDiv>
@@ -38,23 +72,22 @@ function ReviewRight() {
         <Question>흑인가요? 백인가요?</Question>
         <ButtonGroup>
           <Button
-            onClick={() => handleGroupSelect("흑")}
-            selected={group === "흑"}
+            onClick={() => handleGroupSelect('흑')}
+            selected={group === '흑'}
           >
             흑
           </Button>
           <Button
-            onClick={() => handleGroupSelect("백")}
-            selected={group === "백"}
+            onClick={() => handleGroupSelect('백')}
+            selected={group === '백'}
             style={{
-              background: group === "백" ? "black" : "white",
-              color: group === "백" ? "white" : "black",
+              background: group === '백' ? 'black' : 'white',
+              color: group === '백' ? 'white' : 'black',
             }}
           >
             백
           </Button>
         </ButtonGroup>
-        {/* 드롭다운 메뉴 */}
         <Question>언제 다녀오셨나요?</Question>
         <DropdownWrapper>
           <Dropdown onChange={(e) => setVisitDate(e.target.value)}>
@@ -64,10 +97,9 @@ function ReviewRight() {
             <option value="6개월">6개월 이상</option>
           </Dropdown>
         </DropdownWrapper>
-        {/* 동행자 버튼 */}
         <Question>누구와 함께 다녀오셨나요?</Question>
         <ButtonGroup>
-          {["비즈니스", "커플", "가족", "친구", "단독"].map((type) => (
+          {['비즈니스', '커플', '가족', '친구', '단독'].map((type) => (
             <Button
               key={type}
               onClick={() => handleCompanionSelect(type)}
@@ -77,7 +109,6 @@ function ReviewRight() {
             </Button>
           ))}
         </ButtonGroup>
-        {/* 메뉴 입력 */}
         <Question>어떤 메뉴를 주문하셨나요?</Question>
         <ReviewBox>
           <Input
@@ -86,7 +117,6 @@ function ReviewRight() {
             onChange={(e) => setMenu(e.target.value)}
           ></Input>
         </ReviewBox>
-        {/* 리뷰 작성 */}
         <ReviewBox>
           <Question>리뷰 쓰기</Question>
           <TextArea
@@ -95,7 +125,6 @@ function ReviewRight() {
             onChange={(e) => setReview(e.target.value)}
           ></TextArea>
         </ReviewBox>
-        {/* 제목 작성 */}
         <Question>제목</Question>
         <TitleBox>
           <Input
@@ -104,20 +133,15 @@ function ReviewRight() {
             onChange={(e) => setTitle(e.target.value)}
           />
         </TitleBox>
-        {/* 확인 버튼 */}
-        <ContinueButton
-          onClick={() =>
-            console.log({ rating, visitDate, menu, group, companion, review, title })
-          }
-        >
-          확인
-        </ContinueButton>
+        <ContinueButton onClick={handleSubmit}>확인</ContinueButton>
       </Container>
     </RightSideDiv>
   );
 }
 
 export default ReviewRight;
+
+// 스타일드 컴포넌트는 그대로 유지
 
 // 스타일드 컴포넌트
 const RightSideDiv = styled.div`
@@ -151,7 +175,7 @@ const RatingCircle = styled.div`
   border: 2px solid black;
   border-radius: 50%;
   cursor: pointer;
-  background: ${(props) => (props.selected ? "black" : "white")};
+  background: ${(props) => (props.selected ? 'black' : 'white')};
 `;
 
 const DropdownWrapper = styled.div`
@@ -177,8 +201,8 @@ const Button = styled.button`
   padding: 10px 15px;
   border: 1px solid #ccc;
   border-radius: 20px;
-  background: ${(props) => (props.selected ? "black" : "#fff")};
-  color: ${(props) => (props.selected ? "white" : "black")};
+  background: ${(props) => (props.selected ? 'black' : '#fff')};
+  color: ${(props) => (props.selected ? 'white' : 'black')};
   cursor: pointer;
 
   &:hover {
