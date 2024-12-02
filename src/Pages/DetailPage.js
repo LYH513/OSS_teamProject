@@ -49,6 +49,7 @@ function DetailPage(){
 
       const filteredReviews = allReviews.filter((review) => review.postId === postId);
       setGetFilterReview(filteredReviews);
+      
     }} catch (error) {
       console.error("리뷰 데이터를 가져오는 중 에러 발생:", error);
     }
