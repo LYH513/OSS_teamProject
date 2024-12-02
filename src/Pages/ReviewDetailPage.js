@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ReviewRight from '../Components/Review_Components/ReviewRight';
 import ReviewLeftSide from '../Components/Review_Components/ReviewLeftSide';
 import { useRecoilState } from 'recoil';
-import { selectRestaurant } from '../Recoil/Atom';
+import { selectRestaurant, selectReview } from '../Recoil/Atom';
 import { useParams } from 'react-router-dom';
 import { myInfo } from '../Recoil/UserInfo';
 import ReivewDetailRight from '../Components/Review_Components/Detail/ReivewDetailRight';
@@ -12,7 +12,8 @@ import { getReviewDataAPI } from '../API/AxiosAPI';
 function ReviewDetailPage() {
   const [selectkakaoData, setSelectkakaoData] =
     useRecoilState(selectRestaurant);
-    const [info, setInfo] = useRecoilState(myInfo);
+  const [selecReview, setSelecReview] = useRecoilState(selectReview);
+  const [info, setInfo] = useRecoilState(myInfo);
   const { reviewId } = useParams();
   const [getReview, setGetReview] = useState({});
   const [sendMap, setSendMap] = useState({
@@ -35,7 +36,16 @@ function ReviewDetailPage() {
   }
 
   useEffect(()=>{
-    getReviewData();
+    if(info){
+      getReviewData();
+    }
+    else{
+      setGetReview(selecReview);
+      setSendMap({
+        x:selecReview.x,
+        y:selecReview.y
+      })
+    }
   },[])
 
   return (

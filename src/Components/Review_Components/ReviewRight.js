@@ -55,7 +55,7 @@ function ReviewRight({selectkakaoData}) {
       const response = await postReviewAPI(info, reviewData);
       console.log('리뷰 등록 성공:', response);
       // alert('리뷰가 성공적으로 등록되었습니다!');
-      navigate(`/review/${response.id}`)
+      navigate(`/detail/${response.postId}`)
     } catch (error) {
       console.error('리뷰 등록 실패:', error);
       alert('리뷰 등록 중 오류가 발생했습니다.');

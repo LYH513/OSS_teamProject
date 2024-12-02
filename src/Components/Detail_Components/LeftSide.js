@@ -2,12 +2,29 @@ import React from "react";
 import styled from "styled-components";
 import KakaoMap from "./KakaMap";
 import { useNavigate } from "react-router-dom";
+import { selectReview } from "../../Recoil/Atom";
+import { useRecoilState } from "recoil";
 
 function LeftSide({selectkakaoData, getFilterReview}){
+  const [selecReview, setSelecReview] = useRecoilState(selectReview);
   const navigate = useNavigate();
 
-  const onClickReviewDetail = (id) =>{
-    navigate(`/review/${id}`)
+  const onClickReviewDetail = (item) =>{
+    setSelecReview({
+      postId: item.postId,
+      rating: item.rating,
+      group: item.group,
+      visitDate: item.visitDate,
+      menu: item.menu,
+      review: item.review,
+      title: item.title,
+      companion: item.companion,
+      x: item.x,
+      y: item.y,
+      id: item.id,
+      userId: item.userId
+    })
+    navigate(`/review/${item.id}`)
   }
 
   return(
@@ -21,7 +38,7 @@ function LeftSide({selectkakaoData, getFilterReview}){
         getFilterReview.length > 0 && (
           getFilterReview.map((item) => {
             return (
-              <ReviewDiv key={item.id} group ={item.group} onClick={()=>onClickReviewDetail(item.id)} > 
+              <ReviewDiv key={item.id} group ={item.group} onClick={()=>onClickReviewDetail(item)} > 
                 <span>{item.title}</span> 
               </ReviewDiv>
             );

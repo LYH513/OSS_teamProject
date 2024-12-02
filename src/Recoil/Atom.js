@@ -29,3 +29,21 @@ export const selectRestaurant = atom({
     y: '',
   },
 });
+
+export const selectReview = atom({
+  key:"selectReview",
+  default: {
+    postId: "",
+    rating: 0,
+    group: "",
+    visitDate: "",
+    menu: "",
+    review: "",
+    title: "",
+    companion: "",
+    x: "",
+    y: "",
+    id: "",
+    userId: ""
+  }
+});
