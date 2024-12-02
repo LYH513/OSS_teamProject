@@ -1,23 +1,24 @@
-import React from "react";
-import styled from "styled-components";
-import ReviewRight from "../Components/Review_Components/ReviewRight";
-import ReviewLeftSide from "../Components/Review_Components/ReviewLeftSide";
-import { useRecoilState } from "recoil";
-import { selectRestaurant } from "../Recoil/Atom";
+import React from 'react';
+import styled from 'styled-components';
+import ReviewRight from '../Components/Review_Components/ReviewRight';
+import ReviewLeftSide from '../Components/Review_Components/ReviewLeftSide';
+import { useRecoilState } from 'recoil';
+import { selectRestaurant } from '../Recoil/Atom';
 
-function ReviewPage(){
-  const [selectkakaoData, setSelectkakaoData] = useRecoilState(selectRestaurant);
+function ReviewPage() {
+  const [selectkakaoData, setSelectkakaoData] =
+    useRecoilState(selectRestaurant);
 
-  return(
+  return (
     <div>
-    <Div>
-      <ContentsDiv>
-        <ReviewLeftSide selectkakaoData={selectkakaoData}/>
-        <ReviewRight />
-      </ContentsDiv>
-    </Div>
+      <Div>
+        <ContentsDiv>
+          <ReviewLeftSide selectkakaoData={selectkakaoData} />
+          <ReviewRight />
+        </ContentsDiv>
+      </Div>
     </div>
-  )
+  );
 }
 
 export default ReviewPage;
@@ -28,10 +29,10 @@ const Div = styled.div`
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
-`
+`;
 
 const ContentsDiv = styled.div`
   display: flex;
   flex-direction: row;
   gap: 48px;
-`
+`;

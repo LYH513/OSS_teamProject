@@ -9,7 +9,6 @@ import { searchData, searchKeyword } from '../../Recoil/Atom';
 function Header() {
   const [keyword, setKeyword] = useRecoilState(searchKeyword);
   const [kakoData, setKakaoData] = useRecoilState(searchData);
-  
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const searchInputRef = useRef(null);
@@ -37,18 +36,25 @@ function Header() {
   const closeModal = () => {
     setIsModalOpen(false); // 모달 닫기
   };
+
   const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      // setSearchValue(searchInputRef.current.value.trim()); // 입력 값을 상태에 저장
+    if (event.key === 'Enter') {
       setKeyword(searchInputRef.current.value.trim());
-      console.log("검색 값:", searchInputRef.current.value); // 디버그용
-      if(location.pathname !== "/search"){
+      console.log('검색 값:', searchInputRef.current.value); // 디버그용
+      if (location.pathname !== '/search') {
         navigate('/search');
       }
-
     }
   };
-  const isHomePage = location.pathname === "/";
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      // 모달 배경을 클릭한 경우에만 닫기 동작 수행
+      closeModal();
+    }
+  };
+
+  const isHomePage = location.pathname === '/';
 
   return (
     <Div>
@@ -64,7 +70,8 @@ function Header() {
               type="text"
               placeholder="검색"
               ref={searchInputRef}
-              onKeyDown ={handleKeyPress} ></SearchInput>
+              onKeyDown={handleKeyPress}
+            />
           </SearchDiv>
         )}
         <BtnDiv>
@@ -73,14 +80,14 @@ function Header() {
         </BtnDiv>
       </HeaderDiv>
       {isModalOpen && (
-        <ModalOverlay>
+        <ModalOverlay onClick={handleOverlayClick}>
           <ModalContent>
             <CloseButton onClick={closeModal}>×</CloseButton>
             <ModalLogo src={logo} alt="로고 이미지" />
             <ModalTitle>Sign in to unlock the best of BWRestaurant</ModalTitle>
             <InputField type="text" placeholder="닉네임" />
             <InputField type="password" placeholder="비밀번호" />
-            <LoginButton>로그인</LoginButton> {/* 로그인 버튼 추가 */}
+            <LoginButton>로그인</LoginButton>
           </ModalContent>
         </ModalOverlay>
       )}
