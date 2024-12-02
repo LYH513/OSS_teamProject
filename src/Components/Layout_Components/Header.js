@@ -132,8 +132,8 @@ function Header() {
       try {
         const response = await postLoginAPI(loginData); // `addUserAPI`는 서버와 통신하는 함수
         console.log("회원가입 완료", response);
-        setLoginAll([...loginAll, response]); // 새로운 사용자 추가
-        setIsSignUp(false); // 다시 로그인 모드로 전환
+        setInfo(response.id);
+        setIsSignUp(false);
         closeModal();
       } catch (error) {
         console.error("회원가입 실패", error);

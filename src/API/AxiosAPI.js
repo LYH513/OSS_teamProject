@@ -28,7 +28,7 @@ export const postReviewAPI = async(id,data) =>{
 
 export const postLoginAPI = async(data) =>{
   try{
-    const response = await axios.post(`${server}`, data);
+    const response = await axios.post(`${server}user`, data);
     return response.data;
   }
   catch(error){
