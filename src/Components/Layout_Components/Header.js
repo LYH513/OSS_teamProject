@@ -5,6 +5,7 @@ import logo from '../../Assets/Img/logo.png';
 import icon from '../../Assets/Img/SVG.svg';
 import { useRecoilState } from 'recoil';
 import { searchData, searchKeyword } from '../../Recoil/Atom';
+import { getUsersAPI } from '../../API/AxiosAPI';
 
 function Header() {
   const [keyword, setKeyword] = useRecoilState(searchKeyword);
@@ -29,8 +30,14 @@ function Header() {
     navigate('/mypage'); // /mypage로 이동
   };
 
+  const getUsersData = async() =>{
+    const response = await getUsersAPI();
+    console.log("유저 데이터 가져옴",response);
+  };
+
   const handleLoginClick = () => {
     setIsModalOpen(true); // 모달 열기
+    getUsersData();
   };
 
   const closeModal = () => {
