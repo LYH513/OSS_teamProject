@@ -36,11 +36,15 @@ function Header() {
 
   useEffect(()=>{
 
-    if(!info){
+    // '/review/숫자' 경로 정규 표현식
+    const reviewPathRegex = /^\/review\/\d+$/;
+
+    console.log("위치", location)
+    if(!info && !reviewPathRegex.test(location.pathname) ){
       navigate("/")
     }
 
-  },[info])
+  },[info]) 
 
   //모달이 열렸을 때 스크롤 상태 설정
   useEffect(() => {
