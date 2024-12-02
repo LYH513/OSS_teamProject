@@ -1,8 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import KakaoMap from "./KakaMap";
+import { useNavigate } from "react-router-dom";
 
-function LeftSide({selectkakaoData}){
+function LeftSide({selectkakaoData, getFilterReview}){
+  const navigate = useNavigate();
+
+  const onClickReviewDetail = (id) =>{
+    navigate(`/review/${id}`)
+  }
 
   return(
     <LeftSideDiv>
@@ -10,6 +16,18 @@ function LeftSide({selectkakaoData}){
       <BorderDiv>
         <KakaoMap selectkakaoData={selectkakaoData}/>
       </BorderDiv>
+      <span style={{marginTop:"5px"}}>리뷰 : {getFilterReview.length}개</span>
+      {
+        getFilterReview.length > 0 && (
+          getFilterReview.map((item) => {
+            return (
+              <ReviewDiv key={item.id} group ={item.group} onClick={()=>onClickReviewDetail(item.id)} > 
+                <span>{item.title}</span> 
+              </ReviewDiv>
+            );
+          })
+        )
+      }
     </LeftSideDiv>
 
   )
@@ -22,7 +40,6 @@ const LeftSideDiv =styled.div`
   width: 375px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 34px;
   flex-shrink: 0;
    margin-right: 69px;
 `;
@@ -40,6 +57,7 @@ const LeftTitle = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: 50px; /* 119.048% */
+  margin-bottom: 34px;
 `;
 
 const BorderDiv =styled.div`
@@ -47,4 +65,20 @@ const BorderDiv =styled.div`
   height: 375px;
   border-radius: 4px;
   border: 1px solid #E0E0E0;
+`;
+
+const ReviewDiv = styled.div`
+  display: flex;
+  width: 375px;
+  height: 80px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #E0E0E0;
+  margin-bottom: 5px;
+  background-color: ${(props) => (props.group === "흑" ? "black" : "white")};
+  color: ${(props) => (props.group === "흑" ? "white" : "black")};
+  font-size: 30px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
 `;
