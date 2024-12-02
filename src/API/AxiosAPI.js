@@ -20,4 +20,34 @@ export const postReviewAPI = async (id, data) => {
   } catch (error) {
     console.error(error);
   }
+}
+
+
+export const postLoginAPI = async(data) =>{
+  try{
+    const response = await axios.post(`${server}user`, data);
+    return response.data;
+  }
+  catch(error){
+    console.error(error);
+  }
+}
+
+export const getAllReviewDataAPI = async (userId) => {
+  try {
+    const response = await axios.get(`${server}user/${userId}/review`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
+
+export const getReviewDataAPI = async (userId, reviewId) => {
+  try {
+    const response = await axios.get(`${server}user/${userId}/review/${reviewId}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+

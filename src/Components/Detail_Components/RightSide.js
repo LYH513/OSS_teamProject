@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { myInfo } from "../../Recoil/UserInfo";
+import { useRecoilState } from "recoil";
 
 function RightSide({ selectkakaoData }) {
+  const [info, setInfo] = useRecoilState(myInfo);
   const navigate = useNavigate();
 
   const clickReviewWrite = () =>{
-    navigate('/review/create')
+    if(info){
+      navigate('/review/create')
+    }
+    else{
+      alert("로그인을 진행해주세요!")
+    }
   }
 
   return (

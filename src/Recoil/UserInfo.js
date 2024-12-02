@@ -2,12 +2,7 @@ import {atom} from 'recoil';
 
 export const myInfo = atom({
     key : 'myInfo',
-    default:
-    {   
-        id: "",
-        password: "", 
-        nickname: "", 
-    },
+    default: "",
     
     effects: [
         ({setSelf, onSet}) => {
