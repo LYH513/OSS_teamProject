@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import ReviewRight from '../Components/Review_Components/ReviewRight';
 import ReviewLeftSide from '../Components/Review_Components/ReviewLeftSide';
@@ -14,7 +14,7 @@ function ReviewPage() {
       <Div>
         <ContentsDiv>
           <ReviewLeftSide selectkakaoData={selectkakaoData} />
-          <ReviewRight />
+          <ReviewRight selectkakaoData={selectkakaoData}/>
         </ContentsDiv>
       </Div>
     </div>

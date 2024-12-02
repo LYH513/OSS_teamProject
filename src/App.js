@@ -7,6 +7,7 @@ import Header from './Components/Layout_Components/Header';
 import DetailPage from './Pages/DetailPage';
 import Mypage from './Pages/MyPage';
 import ReviewPage from './Pages/ReviewPage';
+import ReviewDetailPage from './Pages/ReviewDetailPage';
 
 //Pages 폴더로부터 컴포넌트를 가져와서 라우터 연결  
 function App() {
@@ -17,7 +18,7 @@ function App() {
         <Route path='/search' element={<SearchPage/>}/>
         <Route path='/detail/:postId' element={<DetailPage/>}/>
         <Route path='/review/create' element={<ReviewPage/>}/>
-        <Route path='/review/:reviewId' element={<ReviewPage/>}/>
+        <Route path='/review/:reviewId' element={<ReviewDetailPage/>}/>
         <Route path='/mypage' element={<Mypage/>}/>
         <Route path='/review/:reviewId/edit' element={<ReviewPage/>}/>
       </Route>

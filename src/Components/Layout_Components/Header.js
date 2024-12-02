@@ -34,6 +34,14 @@ function Header() {
     }
   };
 
+  useEffect(()=>{
+
+    if(!info){
+      navigate("/")
+    }
+
+  },[info])
+
   //모달이 열렸을 때 스크롤 상태 설정
   useEffect(() => {
     if (isModalOpen) {
