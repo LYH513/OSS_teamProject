@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
@@ -18,6 +19,19 @@ function ReviewRight({ selectkakaoData }) {
 
   const navigate = useNavigate();
 
+=======
+import React, { useState } from "react";
+import styled from "styled-components";
+import { selectRestaurant } from "../../Recoil/Atom";
+import { useRecoilState } from "recoil";
+
+function ReviewRight() {
+  const id = 1; //임시 아이디
+
+  const [selectRes, setSelectRes] = useRecoilState(selectRestaurant);
+  console.log("선택한 레스토랑", selectRes.id)
+
+>>>>>>> 80c6d94 (API: mockAPi 로그인 연결 중)
   const [rating, setRating] = useState(0); // 별점 상태
   const [group, setGroup] = useState(''); // 흑백 상태
   // console.log('상태', group);

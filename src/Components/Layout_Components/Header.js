@@ -5,8 +5,12 @@ import logo from '../../Assets/Img/logo.png';
 import icon from '../../Assets/Img/SVG.svg';
 import { useRecoilState } from 'recoil';
 import { searchData, searchKeyword } from '../../Recoil/Atom';
+<<<<<<< HEAD
 import { getUsersAPI, postLoginAPI } from '../../API/AxiosAPI';
 import { myInfo } from '../../Recoil/UserInfo';
+=======
+import { getUsersAPI } from '../../API/AxiosAPI';
+>>>>>>> ebf8b55 (API: mockAPi 로그인 연결 중)
 
 function Header() {
   const [keyword, setKeyword] = useRecoilState(searchKeyword);
@@ -72,11 +76,15 @@ function Header() {
 
   const getUsersData = async() =>{
     const response = await getUsersAPI();
+<<<<<<< HEAD
     setLoginAll(response);
+=======
+>>>>>>> ebf8b55 (API: mockAPi 로그인 연결 중)
     console.log("유저 데이터 가져옴",response);
   };
 
   const handleLoginClick = () => {
+<<<<<<< HEAD
     if(!info){
       setIsModalOpen(true); // 모달 열기
       getUsersData();
@@ -86,6 +94,10 @@ function Header() {
       setInfo("");
     }
 
+=======
+    setIsModalOpen(true); // 모달 열기
+    getUsersData();
+>>>>>>> ebf8b55 (API: mockAPi 로그인 연결 중)
   };
 
   const closeModal = () => {
