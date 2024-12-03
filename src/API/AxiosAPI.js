@@ -44,6 +44,7 @@ export const postLoginAPI = async(data) =>{
 
 export const getAllReviewDataAPI = async (userId) => {
   try {
+    console.log("엥 유저 아이디", userId)
     const response = await axios.get(`${server}user/${userId}/review`);
     return response.data;
   } catch (error) {
