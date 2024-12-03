@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import chefImage from '../../Assets/Img/human1.webp'; // 요리사 이미지를 가져옵니다.
-import { deleteReviewAPI, getAllReviewDataAPI, getMyUserAPI, putReviewAPI } from '../../API/AxiosAPI';
+import chefImage from '../../Assets/Img/human1.webp';
+import { deleteReviewAPI, getAllReviewDataAPI, getMyUserAPI } from '../../API/AxiosAPI';
 import { myInfo } from '../../Recoil/UserInfo';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
@@ -12,85 +12,69 @@ function My() {
   const [selecReview, setSelecReview] = useRecoilState(selectReview);
 
   const [myReview, setMyReview] = useState([]);
-  const [blackCount, setBlackCount] = useState(0); // "흑" 리뷰 개수 상태
-  const [whiteCount, setWhiteCount] = useState(0); // "백" 리뷰 개수 상태
+  const [filteredReviews, setFilteredReviews] = useState([]);
+  const [blackCount, setBlackCount] = useState(0);
+  const [whiteCount, setWhiteCount] = useState(0);
+  const [selectedFilter, setSelectedFilter] = useState("전체"); // 필터 상태
   const [name, setName] = useState("");
   const navigate = useNavigate();
 
-
-  const getReviewAll =async ()=>{
-    try{
-      if(info){
+  const getReviewAll = async () => {
+    try {
+      if (info) {
         const response = await getAllReviewDataAPI(info);
         setMyReview(response);
-        console.log("가져온 리뷰", response)
-
-        // 리뷰 데이터를 가져온 후, 흑/백 리뷰 개수 계산
+        setFilteredReviews(response); // 초기 전체 리뷰 설정
         const blackReviews = response.filter((item) => item.group === "흑");
         const whiteReviews = response.filter((item) => item.group === "백");
-        setBlackCount(blackReviews.length); // "흑" 리뷰 개수 설정
-        setWhiteCount(whiteReviews.length); // "백" 리뷰 개수 설정
-
+        setBlackCount(blackReviews.length);
+        setWhiteCount(whiteReviews.length);
       }
-    }
-    catch(error){
-      console.error(error)
-    }
-  }
-
-  const getMyName = async () =>{
-    try{
-      const response = await getMyUserAPI(info);
-      setName(response.name);
-    }
-    catch(error){
+    } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  const deleteReiviewData = async (reviewID) =>{
-    try{
+  const getMyName = async () => {
+    try {
+      const response = await getMyUserAPI(info);
+      setName(response.name);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteReviewData = async (reviewID) => {
+    try {
       const response = await deleteReviewAPI(info, reviewID);
       console.log(response);
       getReviewAll();
-    }
-    catch(error){
+      setSelectedFilter("전체"); // 필터 상태를 "전체"로 변경
+      setFilteredReviews(myReview);
+    } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  useEffect(()=>{
-    if(info){
+  const handleFilter = (filter) => {
+    if (selectedFilter === filter) {
+      // 같은 필터를 다시 클릭하면 전체 리뷰로 복원
+      setFilteredReviews(myReview);
+      setSelectedFilter("전체");
+    } else {
+      // 선택된 필터에 따라 리뷰 필터링
+      const filtered = myReview.filter((item) => item.group === filter);
+      setFilteredReviews(filtered);
+      setSelectedFilter(filter);
+    }
+  };
+
+  useEffect(() => {
+    if (info) {
       getReviewAll();
       getMyName();
     }
-  },[info])
-
-  const updateReview = async(reviewID, item) =>{
-    try{
-      setSelecReview({
-        postId: item.postId,
-        rating: item.rating,
-        group: item.group,
-        visitDate: item.visitDate,
-        menu: item.menu,
-        review: item.review,
-        title: item.title,
-        companion: item.companion,
-        x: item.x,
-        y: item.y,
-        id: item.id,
-        userId: item.userId,
-        place_name: item.place_name
-      })
-
-      navigate(`/review/${reviewID}/edit`)
-      // const response = await putReviewAPI(info, reviewID)
-    }
-    catch(error){
-      console.error(error);
-    }
-  }
+  }, [info]);
 
   return (
     <PageContainer>
@@ -102,38 +86,44 @@ function My() {
           <UserName>{name}</UserName>
         </ProfileInfo>
         <StatsContainer>
-          <StatBox>
+          <StatBox 
+            onClick={() => handleFilter("흑")}
+            active={selectedFilter === "흑"}
+            >
             <StatTitle>Black Restaurant</StatTitle>
             <StatValue>{blackCount}</StatValue>
           </StatBox>
-          <StatBox>
+          <StatBox 
+            onClick={() => handleFilter("백")}
+            active={selectedFilter === "백"}>
             <StatTitle>White Restaurant</StatTitle>
             <StatValue>{whiteCount}</StatValue>
           </StatBox>
         </StatsContainer>
       </ProfileContainer>
 
-    { myReview&&  myReview.length >0 &&   
-        myReview.map((item)=>{
-          return(
+      {filteredReviews &&
+        filteredReviews.length > 0 &&
+        filteredReviews.map((item) => {
+          return (
             <ReviewContainer key={item.id}>
-            <ReviewBox>
-              <RestaurantName>{item.place_name}</RestaurantName>
-              <ReviewContent>
-                <ImagePlaceholder group={item.group} />
-                <ReviewText>
-                  <ReviewTitle>{item.title}</ReviewTitle>
-                  <ReviewRating>별점: {item.rating}</ReviewRating>
-                  <ReviewPreview>{item.review}</ReviewPreview>
-                </ReviewText>
-                <ActionButtons>
-                  <EditButton onClick={()=>{updateReview(item.id, item)}}>수정</EditButton>
-                  <DeleteButton onClick={()=>{deleteReiviewData(item.id)}}>삭제</DeleteButton>
-                </ActionButtons>
-              </ReviewContent>
-            </ReviewBox>
-          </ReviewContainer>
-          )
+              <ReviewBox>
+                <RestaurantName>{item.place_name}</RestaurantName>
+                <ReviewContent>
+                  <ImagePlaceholder group={item.group} />
+                  <ReviewText>
+                    <ReviewTitle>{item.title}</ReviewTitle>
+                    <ReviewRating>별점: {item.rating}</ReviewRating>
+                    <ReviewPreview>{item.review}</ReviewPreview>
+                  </ReviewText>
+                  <ActionButtons>
+                    <EditButton onClick={() => navigate(`/review/${item.id}/edit`)}>수정</EditButton>
+                    <DeleteButton onClick={() => deleteReviewData(item.id)}>삭제</DeleteButton>
+                  </ActionButtons>
+                </ReviewContent>
+              </ReviewBox>
+            </ReviewContainer>
+          );
         })}
     </PageContainer>
   );
@@ -201,9 +191,17 @@ const StatBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 15px; /* 내부 여백 조정 */
+  padding: 10px 15px;
   border-radius: 5px;
-  background: #f9f9f9;
+  background: ${({ active }) => (active ? "#000" : "#f9f9f9")}; /* 활성화된 필터 색상 변경 */
+  color: ${({ active }) => (active ? "#fff" : "#666")}; /* 활성화된 필터 텍스트 색상 변경 */
+  cursor: pointer;
+  transition: all 0.3s ease; /* 부드러운 애니메이션 */
+  box-shadow: ${({ active }) => (active ? "0px 4px 6px rgba(0, 0, 0, 0.2)" : "none")};
+
+  &:hover {
+    background: ${({ active }) => (active ? "#333" : "#ececec")};
+  }
 `;
 
 const StatTitle = styled.span`
