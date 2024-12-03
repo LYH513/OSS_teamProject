@@ -60,3 +60,14 @@ export const getReviewDataAPI = async (userId, reviewId) => {
   }
 };
 
+
+//삭제
+
+export const deleteReviewAPI = async (userId, reviewId) => {
+  try {
+    const response = await axios.delete(`${server}user/${userId}/review/${reviewId}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

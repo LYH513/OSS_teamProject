@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import chefImage from '../../Assets/Img/human1.webp'; // 요리사 이미지를 가져옵니다.
-import { getAllReviewDataAPI, getMyUserAPI } from '../../API/AxiosAPI';
+import { deleteReviewAPI, getAllReviewDataAPI, getMyUserAPI } from '../../API/AxiosAPI';
 import { myInfo } from '../../Recoil/UserInfo';
 import { useRecoilState } from 'recoil';
 
@@ -43,10 +43,23 @@ function My() {
     }
   }
 
+  const deleteReiviewData = async (reviewID, group) =>{
+    try{
+      const response = await deleteReviewAPI(info, reviewID);
+      console.log(response);
+      getReviewAll();
+    }
+    catch(error){
+      console.error(error);
+    }
+  }
+
   useEffect(()=>{
-    getReviewAll();
-    getMyName();
-  },[])
+    if(info){
+      getReviewAll();
+      getMyName();
+    }
+  },[info])
 
   return (
     <PageContainer>
@@ -72,7 +85,7 @@ function My() {
     {   myReview.length >0 &&   
         myReview.map((item)=>{
           return(
-            <ReviewContainer>
+            <ReviewContainer key={item.id}>
             <ReviewBox>
               <RestaurantName>{item.place_name}</RestaurantName>
               <ReviewContent>
@@ -84,7 +97,7 @@ function My() {
                 </ReviewText>
                 <ActionButtons>
                   <EditButton>수정</EditButton>
-                  <DeleteButton>삭제</DeleteButton>
+                  <DeleteButton onClick={()=>{deleteReiviewData(item.id, item.group)}}>삭제</DeleteButton>
                 </ActionButtons>
               </ReviewContent>
             </ReviewBox>
