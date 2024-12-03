@@ -61,11 +61,20 @@ export const getReviewDataAPI = async (userId, reviewId) => {
 };
 
 
-//삭제
-
+//리뷰 삭제
 export const deleteReviewAPI = async (userId, reviewId) => {
   try {
     const response = await axios.delete(`${server}user/${userId}/review/${reviewId}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+//리뷰 수정
+export const putReviewAPI = async (userId, reviewId, reviewData) => {
+  try {
+    const response = await axios.put(`${server}user/${userId}/review/${reviewId}`, reviewData);
     return response.data;
   } catch (error) {
     console.error(error);

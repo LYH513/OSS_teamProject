@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import chefImage from '../../Assets/Img/human1.webp'; // 요리사 이미지를 가져옵니다.
-import { deleteReviewAPI, getAllReviewDataAPI, getMyUserAPI } from '../../API/AxiosAPI';
+import { deleteReviewAPI, getAllReviewDataAPI, getMyUserAPI, putReviewAPI } from '../../API/AxiosAPI';
 import { myInfo } from '../../Recoil/UserInfo';
 import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import { selectReview } from '../../Recoil/Atom';
 
 function My() {
   const [info, setInfo] = useRecoilState(myInfo);
+  const [selecReview, setSelecReview] = useRecoilState(selectReview);
+
   const [myReview, setMyReview] = useState([]);
   const [blackCount, setBlackCount] = useState(0); // "흑" 리뷰 개수 상태
   const [whiteCount, setWhiteCount] = useState(0); // "백" 리뷰 개수 상태
   const [name, setName] = useState("");
+  const navigate = useNavigate();
 
 
   const getReviewAll =async ()=>{
@@ -43,7 +48,7 @@ function My() {
     }
   }
 
-  const deleteReiviewData = async (reviewID, group) =>{
+  const deleteReiviewData = async (reviewID) =>{
     try{
       const response = await deleteReviewAPI(info, reviewID);
       console.log(response);
@@ -60,6 +65,32 @@ function My() {
       getMyName();
     }
   },[info])
+
+  const updateReview = async(reviewID, item) =>{
+    try{
+      setSelecReview({
+        postId: item.postId,
+        rating: item.rating,
+        group: item.group,
+        visitDate: item.visitDate,
+        menu: item.menu,
+        review: item.review,
+        title: item.title,
+        companion: item.companion,
+        x: item.x,
+        y: item.y,
+        id: item.id,
+        userId: item.userId,
+        place_name: item.place_name
+      })
+
+      navigate(`/review/${reviewID}/edit`)
+      // const response = await putReviewAPI(info, reviewID)
+    }
+    catch(error){
+      console.error(error);
+    }
+  }
 
   return (
     <PageContainer>
@@ -96,8 +127,8 @@ function My() {
                   <ReviewPreview>{item.review}</ReviewPreview>
                 </ReviewText>
                 <ActionButtons>
-                  <EditButton>수정</EditButton>
-                  <DeleteButton onClick={()=>{deleteReiviewData(item.id, item.group)}}>삭제</DeleteButton>
+                  <EditButton onClick={()=>{updateReview(item.id, item)}}>수정</EditButton>
+                  <DeleteButton onClick={()=>{deleteReiviewData(item.id)}}>삭제</DeleteButton>
                 </ActionButtons>
               </ReviewContent>
             </ReviewBox>
