@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { selectRestaurant } from '../../Recoil/Atom';
-import { postReviewAPI } from '../../API/AxiosAPI'; // API 함수 경로에 맞게 수정
+import { selectRestaurant, selectReview } from '../../Recoil/Atom';
+import { getReviewDataAPI, postReviewAPI, putReviewAPI } from '../../API/AxiosAPI'; // API 함수 경로에 맞게 수정
 import { myInfo } from '../../Recoil/UserInfo';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function ReviewRight({selectkakaoData}) {
   // const id = 1; // 임시 아이디
   const [info, setInfo] = useRecoilState(myInfo);
   const [selectRes, setSelectRes] = useRecoilState(selectRestaurant);
+  const [selecReview, setSelecReview] = useRecoilState(selectReview);
+
   const navigate = useNavigate();
   console.log('선택한 레스토랑', selectRes.id);
+
+  console.log("레스토랑 이름찾아요", selectRes.place_name)
 
   const [rating, setRating] = useState(0); // 별점 상태
   console.log('평가', rating);
@@ -29,6 +33,32 @@ function ReviewRight({selectkakaoData}) {
   const handleGroupSelect = (selectedGroup) => setGroup(selectedGroup); // 흑백 선택
   const handleCompanionSelect = (selectedCompanion) =>
     setCompanion(selectedCompanion); // 동행자 선택
+
+  const { reviewId } = useParams(); // 경로에서 리뷰 ID 가져오기
+  const isEditMode = window.location.pathname.includes('/edit'); // 수정 모드 판별
+
+  useEffect(() => {
+    const fetchReviewData = async () => {
+      if (isEditMode && reviewId) {
+        try {
+          // 가져온 데이터로 상태 초기화
+          setRating(selecReview.rating);
+          setGroup(selecReview.group);
+          setVisitDate(selecReview.visitDate);
+          setMenu(selecReview.menu);
+          setReview(selecReview.review);
+          setTitle(selecReview.title);
+          setCompanion(selecReview.companion);
+          setSelectRes({ id: selecReview.postId, place_name: selecReview.place_name }); // 레스토랑 정보도 설정
+        } catch (error) {
+          console.error('리뷰 데이터 불러오기 실패:', error);
+        }
+      }
+    };
+  
+    fetchReviewData();
+  }, [isEditMode, reviewId]);
+  
 
   const handleSubmit = async () => {
     // 유효성 검사
@@ -48,19 +78,31 @@ function ReviewRight({selectkakaoData}) {
       companion: companion,
       userId: info,
       x: selectkakaoData.x, //게시물 지도 
-      y: selectkakaoData.y //게시물 지도
+      y: selectkakaoData.y, //게시물 지도,
+      place_name: selectRes.place_name
     };
 
     try {
-      const response = await postReviewAPI(info, reviewData);
-      console.log('리뷰 등록 성공:', response);
-      // alert('리뷰가 성공적으로 등록되었습니다!');
-      navigate(`/detail/${response.postId}`)
+      if (isEditMode) {
+        // 수정 모드: 리뷰 업데이트 API 호출
+        const response = await putReviewAPI(info, reviewId, reviewData);
+        console.log('리뷰 수정 성공:', response);
+        navigate(`/review/${reviewId}`);
+      } else {
+        // 작성 모드: 리뷰 작성 API 호출
+        const response = await postReviewAPI(info, reviewData);
+        console.log('리뷰 등록 성공:', response);
+        navigate(`/detail/${response.postId}`);
+      }
     } catch (error) {
       console.error('리뷰 등록 실패:', error);
       alert('리뷰 등록 중 오류가 발생했습니다.');
     }
   };
+
+  useEffect(() => {
+    console.log("selecReview:", selecReview); // 데이터 확인
+  }, [selecReview]);
 
   return (
     <RightSideDiv>
@@ -97,7 +139,9 @@ function ReviewRight({selectkakaoData}) {
         </ButtonGroup>
         <Question>언제 다녀오셨나요?</Question>
         <DropdownWrapper>
-          <Dropdown onChange={(e) => setVisitDate(e.target.value)}>
+          <Dropdown 
+            value={visitDate}
+            onChange={(e) => setVisitDate(e.target.value)}>
             <option value="">선택</option>
             <option value="1주">최근 1주</option>
             <option value="1달">최근 1달</option>
@@ -140,7 +184,9 @@ function ReviewRight({selectkakaoData}) {
             onChange={(e) => setTitle(e.target.value)}
           />
         </TitleBox>
-        <ContinueButton onClick={handleSubmit}>확인</ContinueButton>
+        <ContinueButton onClick={handleSubmit}>
+          {isEditMode ? '수정' : '확인'}
+        </ContinueButton>
       </Container>
     </RightSideDiv>
   );

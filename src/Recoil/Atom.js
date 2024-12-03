@@ -44,7 +44,8 @@ export const selectReview = atom({
     x: "",
     y: "",
     id: "",
-    userId: ""
+    userId: "",
+    place_name: ""
   },
 
   effects: [

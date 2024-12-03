@@ -13,6 +13,15 @@ export const getUsersAPI = async () => {
   }
 };
 
+export const getMyUserAPI = async (id) => {
+  try {
+    const response = await axios.get(`${server}user/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const postReviewAPI = async (id, data) => {
   try {
     const response = await axios.post(`${server}user/${id}/review`, data);
@@ -51,3 +60,23 @@ export const getReviewDataAPI = async (userId, reviewId) => {
   }
 };
 
+
+//리뷰 삭제
+export const deleteReviewAPI = async (userId, reviewId) => {
+  try {
+    const response = await axios.delete(`${server}user/${userId}/review/${reviewId}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+//리뷰 수정
+export const putReviewAPI = async (userId, reviewId, reviewData) => {
+  try {
+    const response = await axios.put(`${server}user/${userId}/review/${reviewId}`, reviewData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
