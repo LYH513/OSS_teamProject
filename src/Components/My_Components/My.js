@@ -22,17 +22,37 @@ function My() {
   const getReviewAll = async () => {
     try {
       if (info) {
+        // getAllReviewDataAPI에서 응답이 없으면 빈 배열을 반환하도록 처리
         const response = await getAllReviewDataAPI(info);
-        setMyReview(response);
-        setFilteredReviews(response); // 초기 전체 리뷰 설정
-        const blackReviews = response.filter((item) => item.group === "흑");
-        const whiteReviews = response.filter((item) => item.group === "백");
+    
+        // response가 유효하지 않으면 빈 배열로 설정
+        const reviews = response && Array.isArray(response) ? response : []; 
+    
+        // 상태 업데이트
+        setMyReview(reviews); // 리뷰 데이터를 상태에 저장
+        setFilteredReviews(reviews); // 초기 전체 리뷰 설정
+    
+        // 그룹별로 필터링
+        const blackReviews = reviews.filter((item) => item.group === "흑");
+        const whiteReviews = reviews.filter((item) => item.group === "백");
+    
+        // 카운트 상태 업데이트
         setBlackCount(blackReviews.length);
         setWhiteCount(whiteReviews.length);
       }
     } catch (error) {
-      console.error(error);
-    }
+      if (error.response && error.response.status === 404) {
+        // console.log("리뷰를 찾을 수 없습니다. (404 에러)");
+        setMyReview([]);
+        setFilteredReviews([]);
+        setBlackCount(0);
+        setWhiteCount(0);
+      } 
+      else{
+      console.error("Error fetching reviews:", error);
+      }
+
+    }    
   };
 
   const getMyName = async () => {
@@ -48,11 +68,13 @@ function My() {
     try {
       const response = await deleteReviewAPI(info, reviewID);
       console.log(response);
-      getReviewAll();
+      await getReviewAll();
       setSelectedFilter("전체"); // 필터 상태를 "전체"로 변경
-      setFilteredReviews(myReview);
     } catch (error) {
-      console.error(error);
+      // 404 에러는 처리하지 않음
+      if (error.response && error.response.status !== 404) {
+        console.error("기타 오류 발생:", error);
+      }
     }
   };
 
