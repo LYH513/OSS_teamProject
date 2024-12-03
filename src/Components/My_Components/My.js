@@ -113,7 +113,7 @@ function My() {
         </StatsContainer>
       </ProfileContainer>
 
-    {   myReview.length >0 &&   
+    { myReview&&  myReview.length >0 &&   
         myReview.map((item)=>{
           return(
             <ReviewContainer key={item.id}>
