@@ -13,6 +13,15 @@ export const getUsersAPI = async () => {
   }
 };
 
+export const getMyUserAPI = async (id) => {
+  try {
+    const response = await axios.get(`${server}user/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const postReviewAPI = async (id, data) => {
   try {
     const response = await axios.post(`${server}user/${id}/review`, data);

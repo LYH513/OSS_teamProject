@@ -13,6 +13,9 @@ function ReviewRight({selectkakaoData}) {
   const navigate = useNavigate();
   console.log('선택한 레스토랑', selectRes.id);
 
+
+  console.log("레스토랑 이름찾아요", selectRes.place_name)
+
   const [rating, setRating] = useState(0); // 별점 상태
   console.log('평가', rating);
 
@@ -48,7 +51,8 @@ function ReviewRight({selectkakaoData}) {
       companion: companion,
       userId: info,
       x: selectkakaoData.x, //게시물 지도 
-      y: selectkakaoData.y //게시물 지도
+      y: selectkakaoData.y, //게시물 지도,
+      place_name: selectRes.place_name
     };
 
     try {
