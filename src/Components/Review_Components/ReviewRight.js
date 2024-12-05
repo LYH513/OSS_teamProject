@@ -2,26 +2,30 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { selectRestaurant, selectReview } from '../../Recoil/Atom';
-import { getReviewDataAPI, postReviewAPI, putReviewAPI } from '../../API/AxiosAPI'; // API 함수 경로에 맞게 수정
+import {
+  getReviewDataAPI,
+  postReviewAPI,
+  putReviewAPI,
+} from '../../API/AxiosAPI'; // API 함수 경로에 맞게 수정
 import { myInfo } from '../../Recoil/UserInfo';
 import { useNavigate, useParams } from 'react-router-dom';
 
-function ReviewRight({selectkakaoData}) {
+function ReviewRight({ selectkakaoData }) {
   // const id = 1; // 임시 아이디
   const [info, setInfo] = useRecoilState(myInfo);
   const [selectRes, setSelectRes] = useRecoilState(selectRestaurant);
   const [selecReview, setSelecReview] = useRecoilState(selectReview);
 
   const navigate = useNavigate();
-  console.log('선택한 레스토랑', selectRes.id);
+  // console.log('선택한 레스토랑', selectRes.id);
 
-  console.log("레스토랑 이름찾아요", selectRes.place_name)
+  // console.log("레스토랑 이름찾아요", selectRes.place_name)
 
   const [rating, setRating] = useState(0); // 별점 상태
-  console.log('평가', rating);
+  // console.log('평가', rating);
 
   const [group, setGroup] = useState(''); // 흑백 상태
-  console.log('상태', group);
+  // console.log('상태', group);
 
   const [visitDate, setVisitDate] = useState(''); // 방문 날짜 상태
   const [menu, setMenu] = useState(''); // 메뉴 상태
@@ -49,16 +53,18 @@ function ReviewRight({selectkakaoData}) {
           setReview(selecReview.review);
           setTitle(selecReview.title);
           setCompanion(selecReview.companion);
-          setSelectRes({ id: selecReview.postId, place_name: selecReview.place_name }); // 레스토랑 정보도 설정
+          setSelectRes({
+            id: selecReview.postId,
+            place_name: selecReview.place_name,
+          }); // 레스토랑 정보도 설정
         } catch (error) {
           console.error('리뷰 데이터 불러오기 실패:', error);
         }
       }
     };
-  
+
     fetchReviewData();
   }, [isEditMode, reviewId]);
-  
 
   const handleSubmit = async () => {
     // 유효성 검사
@@ -69,7 +75,7 @@ function ReviewRight({selectkakaoData}) {
 
     const reviewData = {
       postId: selectRes.id, //게시물 아이디
-      rating: rating, 
+      rating: rating,
       group: group,
       visitDate: visitDate,
       menu: menu,
@@ -77,21 +83,21 @@ function ReviewRight({selectkakaoData}) {
       title: title,
       companion: companion,
       userId: info,
-      x: selectkakaoData.x, //게시물 지도 
+      x: selectkakaoData.x, //게시물 지도
       y: selectkakaoData.y, //게시물 지도,
-      place_name: selectRes.place_name
+      place_name: selectRes.place_name,
     };
 
     try {
       if (isEditMode) {
         // 수정 모드: 리뷰 업데이트 API 호출
         const response = await putReviewAPI(info, reviewId, reviewData);
-        console.log('리뷰 수정 성공:', response);
+        // console.log('리뷰 수정 성공:', response);
         navigate(`/review/${reviewId}`);
       } else {
         // 작성 모드: 리뷰 작성 API 호출
         const response = await postReviewAPI(info, reviewData);
-        console.log('리뷰 등록 성공:', response);
+        // console.log('리뷰 등록 성공:', response);
         navigate(`/detail/${response.postId}`);
       }
     } catch (error) {
@@ -101,7 +107,7 @@ function ReviewRight({selectkakaoData}) {
   };
 
   useEffect(() => {
-    console.log("selecReview:", selecReview); // 데이터 확인
+    // console.log("selecReview:", selecReview); // 데이터 확인
   }, [selecReview]);
 
   return (
@@ -139,9 +145,10 @@ function ReviewRight({selectkakaoData}) {
         </ButtonGroup>
         <Question>언제 다녀오셨나요?</Question>
         <DropdownWrapper>
-          <Dropdown 
+          <Dropdown
             value={visitDate}
-            onChange={(e) => setVisitDate(e.target.value)}>
+            onChange={(e) => setVisitDate(e.target.value)}
+          >
             <option value="">선택</option>
             <option value="1주">최근 1주</option>
             <option value="1달">최근 1달</option>
