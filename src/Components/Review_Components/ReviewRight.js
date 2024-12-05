@@ -13,12 +13,9 @@ function ReviewRight({selectkakaoData}) {
   const [selecReview, setSelecReview] = useRecoilState(selectReview);
 
   const navigate = useNavigate();
-  console.log('선택한 레스토랑', selectRes.id);
-
-  console.log("레스토랑 이름찾아요", selectRes.place_name)
 
   const [rating, setRating] = useState(0); // 별점 상태
-  console.log('평가', rating);
+  console.log('제발', selectkakaoData);
 
   const [group, setGroup] = useState(''); // 흑백 상태
   console.log('상태', group);
@@ -86,6 +83,7 @@ function ReviewRight({selectkakaoData}) {
       if (isEditMode) {
         // 수정 모드: 리뷰 업데이트 API 호출
         const response = await putReviewAPI(info, reviewId, reviewData);
+
         console.log('리뷰 수정 성공:', response);
         navigate(`/review/${reviewId}`);
       } else {

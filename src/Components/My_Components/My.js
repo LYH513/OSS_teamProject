@@ -79,6 +79,7 @@ function My() {
   };
 
   const handleFilter = (filter) => {
+
     if (selectedFilter === filter) {
       // 같은 필터를 다시 클릭하면 전체 리뷰로 복원
       setFilteredReviews(myReview);
@@ -89,7 +90,29 @@ function My() {
       setFilteredReviews(filtered);
       setSelectedFilter(filter);
     }
+
   };
+
+  const onClickEdit = (item) =>{
+    setSelecReview({
+      postId: item.postId,
+      rating: item.rating,
+      group: item.group,
+      visitDate: item.visitDate,
+      menu: item.menu,
+      review: item.review,
+      title: item.title,
+      companion: item.companion,
+      x: item.x,
+      y: item.y,
+      id: item.id,
+      userId: item.userId,
+      place_name: item.place_name
+    })
+    console.log("데이터 값 확인중", item)
+    navigate(`/review/${item.id}/edit`);
+
+  }
 
   useEffect(() => {
     if (info) {
@@ -139,7 +162,7 @@ function My() {
                     <ReviewPreview>{item.review}</ReviewPreview>
                   </ReviewText>
                   <ActionButtons>
-                    <EditButton onClick={() => navigate(`/review/${item.id}/edit`)}>수정</EditButton>
+                    <EditButton onClick={()=>onClickEdit(item)}>수정</EditButton>
                     <DeleteButton onClick={() => deleteReviewData(item.id)}>삭제</DeleteButton>
                   </ActionButtons>
                 </ReviewContent>
