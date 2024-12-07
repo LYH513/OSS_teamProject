@@ -1,15 +1,122 @@
-# 개발 환경 세팅방법
-### 1. git clone을 통해 프로젝트 폴더를 로컬로 가져옵니다.
-### 2. npm install을 해줍니다.
-### 3. 모든 작업은 본인의 브랜치에서 진행되며 브랜치 이동은 git switch 브랜치명
-### 4. 현재 존재하는 브랜치를 확인하고 싶다면 git branch -a
-### 5. 실행된 화면을 보고싶을 때 npm start
-### 6. 자신의 브랜치에서 git push (origin)을 하여 pr을 날린 후 깃허브로 들어가 pr을 작성합니다.
-### * pr을 날린 후 꼭 말해주세요. 
-### 7. 누군가가 pr을 날리고 원격저장소의 main과 병합된 상태라면, git switch main을 통해 브랜치를 main으로 옮기고 git pull을 해줍니다. 그후, 자신의 브랜치로 돌아와 git merge main을 하여 main 브랜치의 변경사항을 자신의 브랜치에 가져오도록 합시다.
+# 나만의 흑백 요리사
+
+## 소개
+### 2024년 2학기 OSS 수업으로 진행된 프로젝트입니다.
+### 나만의 흑백 요리사는 방문한 레스토랑 정보를 저장하고 리뷰를 남길 수 있는 서비스 입니다.
 
 ---
 
-### * 변경사항을 가져오던 도중 충돌이 발생했는데 어떻게 해결하는지 모르겠다면 물어보도록 해요.
-### * API 주소 등 중요한 내용은 src 파일 밖에 .env 파일을 만들어 적읍시다.
-### * 커밋 컨벤션을 잘 지키고 즐거운 협업을 해봅시다. 
+## 팀원
+### 한동대학교 전산전자공학부 21학번 이유현
+### 한동대학교 전산전자공학부 21학번 김지원
+
+---
+
+## 라이브러리
+
+```javascript
+
++ npm install react-router-dom
++ npm install styled-components
++ npm install axios
++ npm install recoil
++ npm install react-quill
++ npm install react-slick --save
++ npm install slick-carousel --save
++ npm install react-draggable
++ npm install react-kakao-maps-sdk
++ npm install @tanstack/react-query
+
+```
+
+---
+
+## OpenAPI
++ 카카오 로컬
++ 카카오맵
+
+---
+
+## stack
+
++ HTML
++ CSS
++ JS
++ REACT
+
+--- 
+
+## DB
+
++ MockAPI
+
+---
+
+## 배포 주소(넷틀리파이)
+
++ https://bwrestaurant.netlify.app/
+
+---
+
+## 페이지 설명
+
+### Home
++ 서비스에 대한 설명이 담긴 페이지입니다.
+<img width="1792" alt="Home" src="https://github.com/user-attachments/assets/19d4ec2a-e51b-4d5c-a2d2-89a52c037b40">
+
+--- 
+
+### Login
++ 로그인 버튼을 누를 시 로그인 모달창이 뜹니다.
+<img width="1792" alt="login" src="https://github.com/user-attachments/assets/42393fde-5f42-4951-b33f-dbb94feac1ca">
+
+--- 
+
+### Register
++ 로그인 입력이 실패할 시 회원가입으로 바로 변경됩니다.
++ 회원가입이 완료될 시 로그인이 성공됩니다.
+<img width="1792" alt="register" src="https://github.com/user-attachments/assets/d83d03f4-f17b-467a-8828-713c05512cb1">
+
+--- 
+
+### login-home
++ 로그인이 성공한 페이지입니다.
+<img width="1792" alt="login-after" src="https://github.com/user-attachments/assets/fc46e5cd-b0df-436d-9273-0bca6e152296">
+
+---
+
+### Search
++ 포항으로 검색했을 때 뜨는 화면입니다.
+<img width="1792" alt="search 포항" src="https://github.com/user-attachments/assets/ba5b213a-a4e1-479c-8053-e193bb341c77">
+
+---
+
+### detail
++ 환여횟집을 클릭할 시 보여지는 상세 정보 페이지입니다.
+<img width="1792" alt="detail" src="https://github.com/user-attachments/assets/94de08d2-fd6b-4d4d-8c72-c0099fe8e7b1">
+
+---
+
+### review-write
++ 환여횟집에 대한 리뷰 작성 페이지입니다
+<img width="1792" alt="review write" src="https://github.com/user-attachments/assets/f7b012a8-34ef-49a3-a9b3-fc2dcfa11f74">
+
+---
+
+### detail
++ 리뷰를 작성한 후 디테일 페이지입니다.
+<img width="1792" alt="after review" src="https://github.com/user-attachments/assets/76939679-1a10-4ff4-a91d-fce8188b3a56">
+
+---
+
+### review detail
++ 작성한 리뷰 상세 페이지 입니다.
+<img width="1792" alt="review detail" src="https://github.com/user-attachments/assets/dfb4e735-f3e1-40cb-ab0e-15eb13cbfc8a">
+
+---
+
+### mypage
++ 내가 작성한 리뷰를 확인할 수 있는 마이페이지입니다.
++ 흑백에 따라 필터링이 가능합니다.
++ 수정, 삭제가 가능합니다.
+<img width="1792" alt="mypage" src="https://github.com/user-attachments/assets/f43ccc15-9e1a-4969-8f05-ecb2eab07eaf">
