@@ -87,12 +87,15 @@
 
 ### Search
 + 포항으로 검색했을 때 뜨는 화면입니다.
++ 카카오 로컬 API를 사용하여 검색한 키워드에 대한 음식점 데이터를 불러옵니다.
++ 미리보기 이미지의 경우 불러온 식당점 데이터에 있는 카카오맵 링크에서 제공하는 로컬 이미지를 가져와 이미지 프리뷰로 사용하였습니다.
 <img width="1792" alt="search 포항" src="https://github.com/user-attachments/assets/ba5b213a-a4e1-479c-8053-e193bb341c77">
 
 ---
 
 ### detail
 + 환여횟집을 클릭할 시 보여지는 상세 정보 페이지입니다.
++ 카카오 로컬 데이터에서 받은 위도, 경도 정보를 통해 해당 음식점의 위치를 카카오맵을 사용하여 마커로 표시합니다.
 <img width="1792" alt="detail" src="https://github.com/user-attachments/assets/94de08d2-fd6b-4d4d-8c72-c0099fe8e7b1">
 
 ---
@@ -117,6 +120,6 @@
 
 ### mypage
 + 내가 작성한 리뷰를 확인할 수 있는 마이페이지입니다.
-+ 흑백에 따라 필터링이 가능합니다.
++ 리뷰를 작성할 때 선택한 흑/백에 따라 리뷰 필터링이 가능합니다.
 + 수정, 삭제가 가능합니다.
 <img width="1792" alt="mypage" src="https://github.com/user-attachments/assets/f43ccc15-9e1a-4969-8f05-ecb2eab07eaf">
