@@ -23,7 +23,7 @@ function ReviewDetailPage() {
 
   const getReviewData = async() =>{
     try{
-      const response = await getReviewDataAPI(info, reviewId);
+      const response = await getReviewDataAPI(selecReview.userId, reviewId);
       setGetReview(response);
       setSendMap({
         x:response.x,
